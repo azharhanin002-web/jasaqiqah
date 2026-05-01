@@ -13,18 +13,32 @@ import { groq } from "next-sanity";
 
 // --- SEO & METADATA ---
 export const metadata: Metadata = {
+  metadataBase: new URL("https://jasaqiqah.my.id"), // KUNCI UTAMA: Next.js akan otomatis membuat URL gambar jadi absolut
   title: "Farhan Aqiqah - Jasa Aqiqah Purwokerto & Banyumas Nomor Satu Terpercaya",
   description: "Layanan jasa aqiqah Purwokerto & Banyumas terbaik. Masakan lezat (sate, tengkleng, bistik), profesional, praktis, dan sesuai syariat.",
   keywords: ["aqiqah purwokerto", "aqiqah banyumas", "jasa aqiqah terpercaya", "farhan aqiqah"],
-  alternates: { canonical: "https://jasaqiqah.my.id" },
+  alternates: { canonical: "/" },
   openGraph: {
     title: "Farhan Aqiqah - Layanan Jasa Aqiqah Purwokerto & Banyumas Terpercaya",
     description: "Profesional, Praktis, dan Sesuai Syariat. Layanan aqiqah nomor satu dengan masakan lezat di wilayah Banyumas.",
-    url: "https://jasaqiqah.my.id",
+    url: "/",
     siteName: "Farhan Aqiqah",
-    images: [{ url: "/images/og-image-large.png", width: 1200, height: 630, alt: "Farhan Aqiqah Purwokerto" }],
+    images: [
+      {
+        url: "/images/og-image-large.png", // Pastikan file ini ada di folder public/images/
+        width: 1200,
+        height: 630,
+        alt: "Farhan Aqiqah Purwokerto",
+      },
+    ],
     locale: "id_ID",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Farhan Aqiqah - Jasa Aqiqah Purwokerto & Banyumas Terpercaya",
+    description: "Layanan aqiqah nomor satu dengan masakan lezat di wilayah Banyumas.",
+    images: ["/images/og-image-large.png"],
   },
 };
 
