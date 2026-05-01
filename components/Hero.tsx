@@ -8,7 +8,7 @@ export default function Hero() {
       {/* 1. Background Image Utama */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/images/pattern-gold.png"
+          src="/images/islamic.png"
           alt="Farhan Aqiqah Background"
           fill
           className="object-cover"
@@ -23,7 +23,7 @@ export default function Hero() {
       <div 
         className="absolute inset-0 opacity-[0.05] pointer-events-none z-[1]" 
         style={{ 
-          backgroundImage: "url('/images/pattern-gold.png')", 
+          backgroundImage: "url('/images/islamic.png')", 
           backgroundSize: '500px', 
           backgroundRepeat: 'repeat'
         }}
@@ -32,7 +32,7 @@ export default function Hero() {
       {/* 3. Dekorasi Teks Besar di Background */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none z-[1]">
         <h2 className="text-[20vw] font-black text-white leading-none tracking-tighter">
-          PREMIUM
+          
         </h2>
       </div>
 

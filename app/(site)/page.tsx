@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
 };
 
-// --- QUERY DATA DARI SANITY (SINKRON DENGAN DOKUMENTASI & KATEGORI) ---
+// --- QUERY DATA DARI SANITY (SINKRON DENGAN SCHEMA TESTIMONY) ---
 const getData = async () => {
   const query = groq`{
     "posts": *[_type == "post"] | order(publishedAt desc)[0..3] {
@@ -43,7 +43,12 @@ const getData = async () => {
         caption
       }
     },
-    "testimonials": *[_type == "testimonial"] | order(_createdAt desc),
+    "testimonials": *[_type == "testimony"] | order(_createdAt desc) {
+      name,
+      "location": role,
+      "text": message,
+      "image": avatar
+    },
     "gallery": *[_type == "gallery"] | order(_createdAt desc) {
       title,
       category,
@@ -99,7 +104,7 @@ export default async function Home() {
       
       <Hero />
 
-      {/* 1. SECTION VALUE PROP (Spacing Diperbaiki) */}
+      {/* 1. SECTION VALUE PROP */}
       <section className="pt-24 pb-8 bg-white relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-20 pointer-events-none"></div>
         <div className="max-w-6xl mx-auto px-6 text-center relative z-10">
@@ -121,7 +126,7 @@ export default async function Home() {
 
       <Features />
 
-      {/* 3. PRICING SECTION - HARDCODE PREMIUM EDITION */}
+      {/* 3. PRICING SECTION */}
       <section id="paket" className="py-24 bg-primary relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/images/pattern-gold.png')] bg-repeat" style={{ backgroundSize: '400px' }}></div>
         <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -135,7 +140,6 @@ export default async function Home() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-stretch mb-12">
-            
             {/* KARTU JANTAN */}
             <div className="group relative flex flex-col">
               <div className="absolute -inset-1 bg-gradient-to-b from-accent/30 to-transparent rounded-[2rem] blur opacity-25"></div>
@@ -156,20 +160,10 @@ export default async function Home() {
                       </div>
                       <div className="flex-1 text-white">
                         <p className="text-sm md:text-base font-bold tracking-tight">{item.s} Sate + {item.t} Porsi Tengkleng</p>
-                        {/* Perbaikan Font "Atau" (Fix Mudah Dibaca) */}
                         <p className="text-white/60 text-xs md:text-sm font-medium italic mt-1.5">Atau {item.t} Bistik + {item.t} Tengkleng</p>
                       </div>
                     </div>
                   ))}
-                  <div className="flex items-center bg-white/[0.05] border border-dashed border-white/20 rounded-2xl p-4 transition-all mt-4">
-                    <div className="flex flex-col items-center justify-center w-24 border-r border-white/10 mr-5 opacity-40">
-                      <span className="text-white text-2xl font-black italic">?</span>
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-white/80 text-sm font-bold tracking-tight italic">Butuh porsi lebih besar?</p>
-                      <p className="text-accent text-[11px] font-black uppercase tracking-widest mt-1">Hubungi Admin</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -194,60 +188,8 @@ export default async function Home() {
                       </div>
                       <div className="flex-1 text-white">
                         <p className="text-sm md:text-base font-bold tracking-tight">{item.s} Sate + {item.t} Porsi Tengkleng</p>
-                        {/* Perbaikan Font "Atau" (Fix Mudah Dibaca) */}
                         <p className="text-white/60 text-xs md:text-sm font-medium italic mt-1.5">Atau {item.t} Bistik + {item.t} Tengkleng</p>
                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          {/* BANNER BONUS EKSKLUSIF */}
-          <div className="max-w-4xl mx-auto mb-20 relative group">
-            <div className="absolute -inset-1 bg-accent/20 rounded-3xl blur-xl opacity-50"></div>
-            <div className="relative bg-gradient-to-r from-[#0d0d0d] to-[#1a1a1a] border border-accent/30 backdrop-blur-md rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
-              <div className="flex items-center gap-5">
-                <div className="w-14 h-14 bg-accent rounded-2xl flex items-center justify-center text-primary shadow-xl shadow-accent/20">
-                  <Star size={28} fill="currentColor" />
-                </div>
-                <div>
-                  <h4 className="text-white font-black text-lg uppercase tracking-tight leading-none mb-1">Bonus Eksklusif</h4>
-                  <p className="text-accent text-[10px] font-black uppercase tracking-[0.3em]">Untuk Seluruh Paket Aqiqah</p>
-                </div>
-              </div>
-              <div className="flex flex-wrap justify-center gap-3">
-                {["Sertifikat Aqiqah", "Video Dokumentasi", "Souvenir Menarik", "Gratis Ongkir*"].map((bonus, i) => (
-                  <span key={i} className="px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-[10px] font-bold text-white/80 uppercase tracking-widest shadow-inner">
-                    {bonus}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* PAKET NASI BOX */}
-          <div className="max-w-5xl mx-auto relative group">
-            <div className="relative bg-white rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center gap-12 border border-white/20 shadow-2xl overflow-hidden">
-              <div className="w-full md:w-2/5 border-b md:border-b-0 md:border-r border-gray-100 pb-8 md:pb-0 md:pr-12 text-center md:text-left">
-                <span className="text-accent text-[10px] font-black uppercase tracking-widest mb-2 block">Lengkap & Praktis</span>
-                <h3 className="text-primary text-3xl font-black uppercase tracking-tight mb-8">PAKET NASI BOX</h3>
-                <div className="space-y-4">
-                  <div className="bg-gray-50 p-5 rounded-[1.5rem] border border-gray-100 shadow-sm">
-                    <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-1">Mulai Dari</span>
-                    <p className="text-4xl font-black text-accent tracking-tighter">Rp 13.500 <span className="text-xs text-primary/30 ml-1">/ box</span></p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 w-full">
-                <p className="text-[11px] font-black uppercase tracking-[0.2em] text-accent mb-8">Menu Box Lengkap:</p>
-                <div className="grid grid-cols-2 gap-y-5 gap-x-6">
-                  {["Nasi Putih", "Kari Kentang", "Capcay Lezat", "Acar Segar", "Kerupuk Udang", "Sendok & Tisu"].map((menu, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-lg bg-accent/10 flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-accent"></div></div>
-                      <span className="text-primary font-bold text-[12px] uppercase tracking-tight">{menu}</span>
                     </div>
                   ))}
                 </div>
@@ -259,31 +201,23 @@ export default async function Home() {
 
       <Gallery items={gallery} />
       <NewsSection posts={posts} />
+      
+      {/* 5. TESTIMONIALS SECTION */}
       <Testimonials data={testimonials} />
 
-      {/* 6. FAQ (RESTORED COMPLETELY & FIXED) */}
+      {/* 6. FAQ */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-black mb-12 uppercase tracking-tighter text-primary">FAQ Farhan Aqiqah</h2>
           <div className="space-y-4 text-left">
             {[
-              { 
-                q: "Apakah jasa aqiqah di Farhan Aqiqah sudah sesuai syariat?", 
-                a: "Kami memprioritaskan keabsahan aqiqah sebagai ibadah. Dari pemilihan kambing cukup umur hingga penyembelihan sesuai kaidah fikih. Slogan kami: Profesional, Praktis dan Sesuai Syariah." 
-              },
-              { 
-                q: "Bagaimana cara pesan aqiqah di Farhan Aqiqah?", 
-                a: "Sangat mudah! Cukup konsultasi melalui WhatsApp, pilih paket yang diinginkan, dan tim kami akan mengelola semuanya mulai dari penyembelihan hingga pengantaran ke lokasi Anda." 
-              },
-              { 
-                q: "Apakah melayani pengiriman area di luar kota?", 
-                a: "Kami melayani seluruh area Kabupaten Banyumas dan sekitarnya (seperti Cilacap, Purbalingga) untuk menjaga kualitas dan kesegaran masakan. Hubungi admin untuk informasi area cakupan." 
-              }
+              { q: "Apakah jasa aqiqah di Farhan Aqiqah sudah sesuai syariat?", a: "Kami memprioritaskan keabsahan aqiqah sebagai ibadah. Dari pemilihan kambing cukup umur hingga penyembelihan sesuai kaidah fikih." },
+              { q: "Bagaimana cara pesan aqiqah di Farhan Aqiqah?", a: "Sangat mudah! Cukup konsultasi melalui WhatsApp, pilih paket yang diinginkan, dan tim kami akan mengelola semuanya." },
+              { q: "Apakah melayani pengiriman area di luar kota?", a: "Kami melayani seluruh area Kabupaten Banyumas dan sekitarnya (seperti Cilacap, Purbalingga) untuk menjaga kualitas masakan." }
             ].map((faq, i) => (
               <details key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 group">
                 <summary className="font-bold text-primary cursor-pointer list-none flex justify-between items-center text-lg">
-                  {faq.q} 
-                  <span className="text-accent transition-transform group-open:rotate-180">▼</span>
+                  {faq.q} <span className="text-accent transition-transform group-open:rotate-180">▼</span>
                 </summary>
                 <p className="mt-4 text-gray-500 text-sm font-medium leading-relaxed">{faq.a}</p>
               </details>
