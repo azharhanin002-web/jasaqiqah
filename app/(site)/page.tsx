@@ -13,7 +13,7 @@ import { groq } from "next-sanity";
 
 // --- SEO & METADATA ---
 export const metadata: Metadata = {
-  metadataBase: new URL("https://jasaqiqah.my.id"), // KUNCI UTAMA: Next.js akan otomatis membuat URL gambar jadi absolut
+  metadataBase: new URL("https://jasaqiqah.my.id"),
   title: "Farhan Aqiqah - Jasa Aqiqah Purwokerto & Banyumas Nomor Satu Terpercaya",
   description: "Layanan jasa aqiqah Purwokerto & Banyumas terbaik. Masakan lezat (sate, tengkleng, bistik), profesional, praktis, dan sesuai syariat.",
   keywords: ["aqiqah purwokerto", "aqiqah banyumas", "jasa aqiqah terpercaya", "farhan aqiqah"],
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     siteName: "Farhan Aqiqah",
     images: [
       {
-        url: "/images/og-image-large.png", // Pastikan file ini ada di folder public/images/
+        url: "/images/og-image-large.png",
         width: 1200,
         height: 630,
         alt: "Farhan Aqiqah Purwokerto",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   },
 };
 
-// --- QUERY DATA DARI SANITY (SINKRON DENGAN SCHEMA TESTIMONY) ---
+// --- QUERY DATA DARI SANITY ---
 const getData = async () => {
   const query = groq`{
     "posts": *[_type == "post"] | order(publishedAt desc)[0..3] {
@@ -210,13 +210,62 @@ export default async function Home() {
               </div>
             </div>
           </div>
+
+          {/* BANNER BONUS EKSKLUSIF - KEMBALI */}
+          <div className="max-w-4xl mx-auto mb-20 relative group">
+            <div className="absolute -inset-1 bg-accent/20 rounded-3xl blur-xl opacity-50"></div>
+            <div className="relative bg-gradient-to-r from-[#0d0d0d] to-[#1a1a1a] border border-accent/30 backdrop-blur-md rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
+              <div className="flex items-center gap-5">
+                <div className="w-14 h-14 bg-accent rounded-2xl flex items-center justify-center text-primary shadow-xl shadow-accent/20">
+                  <Star size={28} fill="currentColor" />
+                </div>
+                <div>
+                  <h4 className="text-white font-black text-lg uppercase tracking-tight leading-none mb-1">Bonus Eksklusif</h4>
+                  <p className="text-accent text-[10px] font-black uppercase tracking-[0.3em]">Untuk Seluruh Paket Aqiqah</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap justify-center gap-3">
+                {["Sertifikat Aqiqah", "Video Dokumentasi", "Souvenir Menarik", "Gratis Ongkir*"].map((bonus, i) => (
+                  <span key={i} className="px-4 py-2 bg-white/5 rounded-xl border border-white/10 text-[10px] font-bold text-white/80 uppercase tracking-widest shadow-inner">
+                    {bonus}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* PAKET NASI BOX - KEMBALI */}
+          <div className="max-w-5xl mx-auto relative group">
+            <div className="relative bg-white rounded-[2.5rem] p-10 flex flex-col md:flex-row items-center gap-12 border border-white/20 shadow-2xl overflow-hidden">
+              <div className="w-full md:w-2/5 border-b md:border-b-0 md:border-r border-gray-100 pb-8 md:pb-0 md:pr-12 text-center md:text-left">
+                <span className="text-accent text-[10px] font-black uppercase tracking-widest mb-2 block">Lengkap & Praktis</span>
+                <h3 className="text-primary text-3xl font-black uppercase tracking-tight mb-8">PAKET NASI BOX</h3>
+                <div className="bg-gray-50 p-5 rounded-[1.5rem] border border-gray-100 shadow-sm inline-block">
+                  <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest block mb-1">Mulai Dari</span>
+                  <p className="text-4xl font-black text-accent tracking-tighter">Rp 13.500 <span className="text-xs text-primary/30 ml-1">/ box</span></p>
+                </div>
+              </div>
+              <div className="flex-1 w-full grid grid-cols-2 gap-y-5 gap-x-6">
+                {["Nasi Putih", "Kari Kentang", "Capcay Lezat", "Acar Segar", "Kerupuk Udang", "Sendok & Tisu"].map((menu, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="w-6 h-6 rounded-lg bg-accent/10 flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-accent"></div></div>
+                    <span className="text-primary font-bold text-[12px] uppercase tracking-tight">{menu}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* DISCLAIMER HARGA - KEMBALI */}
+          <p className="text-white/20 text-center mt-12 text-[10px] font-bold uppercase tracking-[0.2em]">
+            * Harga sewaktu-waktu dapat berubah tanpa pemberitahuan sebelumnya
+          </p>
+
         </div>
       </section>
 
       <Gallery items={gallery} />
       <NewsSection posts={posts} />
-      
-      {/* 5. TESTIMONIALS SECTION */}
       <Testimonials data={testimonials} />
 
       {/* 6. FAQ */}
