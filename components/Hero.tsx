@@ -80,7 +80,7 @@ export default function Hero() {
               
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[3rem] border border-white/20 shadow-2xl z-10">
                 <Image
-                  src="/images/model.png"
+                  src="/images/senyum.png"
                   alt="Dokumentasi Farhan Aqiqah"
                   fill
                   className="object-cover transition-transform duration-[2000ms] hover:scale-105"
