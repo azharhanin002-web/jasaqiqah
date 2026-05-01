@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 1. VARIABLE DEFINITIONS */
+:root {
+  --primary: #231F20; /* Hitam pekat mewah */
+  --accent: #D4AF37;  /* Emas / Gold premium */
+  --accent-dark: #AA8C2C;
+  --text-gray: #A1A1AA;
+}
+
+/* 2. BASE STYLES */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-white text-primary antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Typography SEO-friendly */
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tighter font-black text-primary;
+  }
+}
+
+/* 3. CUSTOM COMPONENTS (Luxury Elements) */
+@layer components {
+  /* Tombol Gold Utama Farhan Aqiqah */
+  .btn-gold {
+    @apply bg-accent text-primary font-black py-4 px-8 rounded-2xl 
+           transition-all duration-300 uppercase text-xs tracking-[0.2em]
+           hover:bg-white hover:shadow-[0_10px_30px_rgba(212,175,55,0.4)] 
+           hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2;
+  }
+
+  /* Card Premium Hover Effect */
+  .card-premium {
+    @apply bg-white border border-gray-100 p-8 rounded-[2.5rem] 
+           transition-all duration-500 hover:shadow-2xl hover:border-accent/20;
+  }
+
+  /* Badge Layanan */
+  .badge-premium {
+    @apply inline-flex items-center gap-2 px-3 py-1 rounded-full 
+           bg-accent/10 border border-accent/20 text-accent 
+           text-[10px] font-bold uppercase tracking-[0.3em];
+  }
+}
+
+/* 4. UTILITIES & ANIMATIONS */
+/* Custom Selection Color (Emas saat teks disorot) */
+::selection {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+/* Scrollbar Styling (Minimalis) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-dark);
+}
+
+/* Custom Animation Utility */
+.animate-luxury-fade {
+  animation: luxuryFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes luxuryFade {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,30 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Next.js Build Output
+# Folder ini wajib diabaikan agar tidak menyebabkan ChunkLoadError di repo
+/.next/
+/out/
+
+# Production Build
+/build
+
+# Environment Variables
+# Abaikan data sensitif seperti API Key Sanity
+.env*.local
+.env
+
+# Debug Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# System Files
+.DS_Store
+*.pem
+
+# Sanity Specific (Jika ada folder lokal)
+.sanity/
