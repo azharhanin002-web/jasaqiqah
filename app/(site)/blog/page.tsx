@@ -1,11 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Star, ArrowRight, Clock } from "lucide-react";
-import { client } from "@/sanity/lib/client"; // Sesuaikan path client Anda
+import { client } from "@/sanity/lib/client"; 
 import { groq } from "next-sanity";
 
-// --- QUERY DATA BLOG ---
-async function getBlogData(category?: string) {
+// --- 1. DEFINISI INTERFACE UNTUK TYPESCRIPT ---
+interface Post {
+  title: string;
+  slug: string;
+  publishedAt: string;
+  excerpt: string;
+  image: string;
+  category: string;
+}
+
+interface BlogData {
+  posts: Post[];
+  allCategories: string[];
+}
+
+// --- 2. QUERY DATA BLOG DENGAN PENENTUAN TIPE ---
+async function getBlogData(category?: string): Promise<BlogData> {
   const filter = category && category !== "Semua" ? `&& "${category}" in categories[]->title` : "";
   
   const query = groq`{
@@ -43,7 +58,7 @@ export default async function BlogPage({
   // Pisahkan artikel utama (terbaru) dan sisanya
   const featuredPost = posts[0];
   const remainingPosts = posts.slice(1);
-  const categories = ["Semua", ...allCategories];
+  const categoriesList = ["Semua", ...allCategories];
 
   return (
     <main className="w-full bg-white min-h-screen pb-24">
@@ -69,8 +84,8 @@ export default async function BlogPage({
       {/* 2. KATEGORI MENU */}
       <section className="max-w-6xl mx-auto px-6 -mt-8 relative z-20">
         <div className="bg-white rounded-2xl shadow-xl shadow-black/[0.03] p-4 flex gap-3 overflow-x-auto hide-scrollbar border border-gray-100">
-          {categories.map((cat, idx) => (
-            <Link 
+          {categoriesList.map((cat, idx) => (
+            <Link 
               key={idx}
               href={`/blog?cat=${cat}`}
               className={`whitespace-nowrap px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all duration-300 ${
@@ -85,7 +100,7 @@ export default async function BlogPage({
         </div>
       </section>
 
-      {/* 3. FEATURED POST (Dinamis) */}
+      {/* 3. FEATURED POST */}
       {featuredPost && (
         <section className="max-w-6xl mx-auto px-6 mt-16">
           <Link href={`/blog/${featuredPost.slug}`} className="group block">
@@ -126,7 +141,7 @@ export default async function BlogPage({
         </section>
       )}
 
-      {/* 4. BLOG GRID (Dinamis) */}
+      {/* 4. BLOG GRID (Fixed Type Error) */}
       <section className="max-w-6xl mx-auto px-6 mt-20">
         <div className="flex items-center justify-between mb-10">
           <h2 className="text-2xl font-black text-primary uppercase tracking-tighter">Terbaru</h2>
@@ -135,7 +150,8 @@ export default async function BlogPage({
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
           {remainingPosts.length > 0 ? (
-            remainingPosts.map((post, idx) => (
+            // Kita deklarasikan eksplisit bahwa 'post' adalah tipe 'Post'
+            remainingPosts.map((post: Post, idx: number) => (
               <Link key={idx} href={`/blog/${post.slug}`} className="group block w-full">
                 <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray-100 shadow-sm transition-transform duration-500 group-hover:shadow-xl">
                   {post.image && (
@@ -168,7 +184,6 @@ export default async function BlogPage({
           )}
         </div>
 
-        {/* Tombol Load More (Opsional: Bisa dihubungkan ke fitur pagination Sanity) */}
         <div className="mt-20 text-center">
           <Link href="/blog" className="inline-flex items-center justify-center gap-3 bg-gray-50 text-primary px-10 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-accent hover:text-primary transition-all active:scale-95 border border-transparent hover:border-accent">
             Segarkan Halaman

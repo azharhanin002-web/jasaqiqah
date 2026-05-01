@@ -73,10 +73,14 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
     <main className="w-full bg-white min-h-screen pb-24">
       <ViewTracker slug={params.slug} />
       
-      {/* 1. HERO HEADER */}
+      {/* 1. HERO HEADER (Gradasi Modern Diperbaiki) */}
       <section className="relative pt-40 pb-16 bg-primary overflow-hidden">
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/images/pattern-gold.png')] bg-repeat" style={{ backgroundSize: '400px' }}></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-primary/40 to-primary pointer-events-none"></div>
+        
+        {/* GRADASI MODERN: Bawah warna Primary, semakin ke atas semakin gelap (tapi tidak pekat) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/80 to-black/60 pointer-events-none"></div>
+        {/* Layer tambahan untuk kesan kedalaman (depth) tipis dari atas */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-transparent pointer-events-none"></div>
 
         <div className="max-w-6xl mx-auto px-6 relative z-10">
           <div className="flex items-center gap-2 mb-8 text-accent/80 font-black text-[10px] uppercase tracking-[0.2em]">
@@ -145,9 +149,30 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
               <PortableText value={post.body} />
             </div>
 
+            {/* BOX CALL-TO-ACTION (CTA) WA DI AKHIR ARTIKEL */}
+            <div className="mt-12 mb-16 p-8 bg-accent/10 border border-accent/20 rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+              <div className="text-center md:text-left">
+                <h4 className="text-xl md:text-2xl font-black text-primary mb-2 tracking-tight">
+                  Konsultasi Aqiqah <span className="text-accent italic">Gratis!</span>
+                </h4>
+                <p className="text-sm text-gray-500 font-medium leading-relaxed max-w-md">
+                  Punya pertanyaan seputar layanan Farhan Aqiqah? Jangan ragu untuk menghubungi tim ahli kami melalui WhatsApp sekarang juga.
+                </p>
+              </div>
+              <Link 
+                href="https://wa.me/62895324383400" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-shrink-0 inline-flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-xl font-black uppercase text-[11px] tracking-widest hover:bg-accent hover:text-primary transition-all shadow-xl hover:-translate-y-1"
+              >
+                <MessageCircle size={20} />
+                Hubungi Admin
+              </Link>
+            </div>
+
             {/* RELATED POSTS SECTION */}
             {relatedPosts?.length > 0 && (
-              <div className="mt-20 pt-16 border-t border-gray-100">
+              <div className="pt-10 border-t border-gray-100">
                 <h4 className="text-xl font-black text-primary mb-8 uppercase tracking-tighter">Artikel Terkait</h4>
                 <div className="grid md:grid-cols-2 gap-6">
                   {relatedPosts.map((rel: any, i: number) => (
