@@ -88,33 +88,74 @@ const hargaBetina = [
 export default async function Home() {
   const { posts, testimonials, gallery, ratingStats } = await getData();
 
+  // --- STRUKTUR DATA (JSON-LD) UNTUK DOMINASI SEARCH ENGINE ---
   const jsonLd = {
-    "@context": "https://schema.org/",
-    "@type": "LocalBusiness",
-    "name": "Farhan Aqiqah",
-    "image": "https://www.jasaqiqah.my.id/images/kantor.jpg",
-    "description": "Layanan jasa aqiqah Purwokerto & Banyumas terbaik.",
-    "url": "https://www.jasaqiqah.my.id",
-    "telephone": "+62895324383400",
-    "priceRange": "$$",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Jl. Lesanpura No. 17 RT 01/01 Karangklesem",
-      "addressLocality": "Purwokerto Selatan",
-      "addressRegion": "Jawa Tengah",
-      "addressCountry": "ID"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": ratingStats.avgRating,
-      "bestRating": "5",
-      "worstRating": "1",
-      "ratingCount": ratingStats.totalReviews.toString()
-    }
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://www.jasaqiqah.my.id/#organization",
+        "name": "Farhan Aqiqah",
+        "image": "https://www.jasaqiqah.my.id/images/kantor.jpg",
+        "description": "Layanan jasa aqiqah Purwokerto & Banyumas terbaik. Masakan lezat, profesional, praktis, dan sesuai syariat.",
+        "url": "https://www.jasaqiqah.my.id",
+        "telephone": "+62895324383400", // Sesuai permintaan Abah, nomor tidak berubah
+        "priceRange": "Rp1.700.000 - Rp3.500.000",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Lesanpura No. 17 RT 01/01 Karangklesem",
+          "addressLocality": "Purwokerto Selatan",
+          "addressRegion": "Jawa Tengah",
+          "addressCountry": "ID"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -7.4244,
+          "longitude": 109.2303
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": ratingStats.avgRating,
+          "bestRating": "5",
+          "worstRating": "1",
+          "ratingCount": ratingStats.totalReviews.toString()
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Apakah jasa aqiqah di Farhan Aqiqah sudah sesuai syariat?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Kami memprioritaskan keabsahan aqiqah sebagai ibadah. Dari pemilihan kambing cukup umur hingga penyembelihan sesuai kaidah fikih."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Bagaimana cara pesan aqiqah di Farhan Aqiqah?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Sangat mudah! Cukup konsultasi melalui WhatsApp, pilih paket yang diinginkan, dan tim kami akan mengelola semuanya."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Apakah melayani pengiriman area di luar kota?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Kami melayani seluruh area Kabupaten Banyumas dan sekitarnya (seperti Cilacap, Purbalingga) untuk menjaga kualitas masakan."
+            }
+          }
+        ]
+      }
+    ]
   };
 
   return (
     <main className="w-full overflow-hidden">
+      {/* Script ini akan otomatis di-inject oleh Next.js ke bagian <head> */}
       <Script
         id="structured-data"
         type="application/ld+json"
