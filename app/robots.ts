@@ -4,6 +4,6 @@ import { MetadataRoute } from 'next'
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: '*', allow: '/', disallow: '/admin' },
-    sitemap: 'https://jasaqiqah.my.id/sitemap.xml',
+    sitemap: 'https://www.jasaqiqah.my.id/sitemap.xml',
   }
 }
