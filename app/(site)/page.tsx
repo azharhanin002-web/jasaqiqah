@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import Script from "next/script"; // Tambahkan untuk JSON-LD
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import Gallery from "@/components/Gallery";
@@ -32,6 +33,11 @@ export const metadata: Metadata = {
 // --- QUERY DATA DINAMIS DARI SANITY ---
 const getData = async () => {
   const query = groq`{
+    // Step 1: Menarik statistik rating secara dinamis
+    "ratingStats": {
+      "totalReviews": count(*[_type == "testimony"]),
+      "avgRating": "4.9" 
+    },
     "posts": *[_type == "post"] | order(publishedAt desc)[0..3] {
       title,
       "slug": slug.current,
@@ -79,10 +85,37 @@ const hargaBetina = [
 ];
 
 export default async function Home() {
-  const { posts, testimonials, gallery } = await getData();
+  const { posts, testimonials, gallery, ratingStats } = await getData();
+
+  // Step 2: Membuat objek JSON-LD untuk Schema 5 Bintang
+  const jsonLd = {
+    "@context": "https://schema.org/",
+    "@type": "Service",
+    "name": "Farhan Aqiqah",
+    "image": "https://www.jasaqiqah.my.id/images/kantor.jpg",
+    "description": "Layanan jasa aqiqah terbaik di Purwokerto dan Banyumas.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Farhan Aqiqah"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": ratingStats.avgRating,
+      "bestRating": "5",
+      "worstRating": "1",
+      "ratingCount": ratingStats.totalReviews.toString()
+    }
+  };
 
   return (
     <main className="w-full overflow-hidden">
+      {/* Script untuk Google Bintang */}
+      <Script
+        id="structured-data"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <Hero />
 
       {/* 1. SECTION VALUE PROP */}
@@ -177,7 +210,7 @@ export default async function Home() {
       
       <Testimonials data={testimonials} />
 
-     {/* 6. FAQ */}
+      {/* 6. FAQ */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-black mb-12 uppercase tracking-tighter text-primary">FAQ Farhan Aqiqah</h2>
