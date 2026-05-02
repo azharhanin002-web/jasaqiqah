@@ -5,7 +5,7 @@ import { ShieldCheck, Utensils, HeartHandshake, Scissors } from "lucide-react";
 const features = [
   {
     icon: <ShieldCheck size={28} className="text-white" />,
-    title: "Amanah & Syariat",
+    title: "Amanah & Sesuai Syariat",
     description: "Pelayanan kami senantiasa berpedoman pada tuntunan syariat Islam yang ketat mulai dari pemilihan hingga penyembelihan kambing.",
   },
   {

@@ -95,7 +95,7 @@ export default async function Home() {
     "image": "https://www.jasaqiqah.my.id/images/kantor.jpg",
     "description": "Layanan jasa aqiqah Purwokerto & Banyumas terbaik.",
     "url": "https://www.jasaqiqah.my.id",
-    "telephone": "+6281229787700",
+    "telephone": "+62895324383400",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
@@ -147,80 +147,98 @@ export default async function Home() {
 
       <Features />
 
-     {/* 3. PRICING SECTION (GLOW EFFECT & COLOR THEMED) */}
-<section id="paket" className="py-20 bg-[#0a0a0a] relative overflow-hidden">
-  <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/images/pattern-gold.png')] bg-repeat" style={{ backgroundSize: '400px' }}></div>
+ {/* 3. PRICING SECTION (DEEP GOLDEN TWILIGHT - COMPACT) */}
+<section id="paket" className="py-24 bg-gradient-to-b from-[#0f0e0a] via-[#261a02] to-[#0f0e0a] relative overflow-hidden">
   
-  <div className="max-w-6xl mx-auto px-6 relative z-10">
-    <div className="text-center mb-12">
+  <div className="max-w-5xl mx-auto px-6 relative z-10">
+    <div className="text-center mb-16">
       <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter mb-3 uppercase">
-        Daftar Harga <span className="text-accent">Farhan Aqiqah</span>
+        Daftar Harga <span className="text-accent italic">Farhan Aqiqah</span>
       </h2>
-      <p className="text-gray-400 font-bold tracking-[0.1em] uppercase text-[10px] md:text-xs border-y border-white/10 inline-block py-2">
-        Profesional, Praktis, Sesuai Syariat
+      <p className="text-accent/40 font-bold tracking-[0.2em] uppercase text-[10px] md:text-xs border-y border-accent/20 inline-block py-2">
+        Kualitas Premium di Setiap Hidangan
       </p>
     </div>
 
-    <div className="grid lg:grid-cols-2 gap-10 items-start mb-12">
+    {/* Container Grid Diperkecil agar kartu tidak terlalu lebar */}
+    <div className="grid lg:grid-cols-2 gap-8 items-start mb-16">
       
-      {/* --- KARTU JANTAN (THEME: BOLD RED) --- */}
-      <div className="group relative bg-[#0f0f0f] border border-white/5 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:border-red-500/50 hover:shadow-[0_0_40px_-10px_rgba(220,38,38,0.3)] hover:-translate-y-1">
-        <div className="bg-gradient-to-r from-red-950 to-red-900 p-5 text-center border-b border-white/10">
-          <h3 className="text-white font-black text-xl uppercase tracking-[0.2em] drop-shadow-md">Kambing Jantan</h3>
+      {/* --- KOLOM KIRI: JANTAN + BONUS --- */}
+      <div className="space-y-6">
+        {/* KARTU JANTAN (DARK GLASS) */}
+        <div className="group relative bg-black/60 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:border-red-500/40 hover:shadow-[0_0_50px_-10px_rgba(220,38,38,0.4)] hover:-translate-y-1">
+          <div className="bg-gradient-to-r from-red-950/90 to-red-900/90 p-5 text-center border-b border-white/10">
+            <h3 className="text-white font-black text-xl uppercase tracking-[0.2em]">Kambing Jantan</h3>
+          </div>
+          
+          <div className="p-4 md:p-8 space-y-4">
+            {hargaJantan.map((item, idx) => (
+              <div key={idx} className="flex items-stretch bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 group/item hover:border-red-500/20 hover:bg-white/[0.05]">
+                <div className="bg-red-950/30 flex flex-col justify-center items-center px-5 py-4 border-r border-white/5 min-w-[100px]">
+                  <span className="text-accent text-3xl font-black tracking-tighter">{item.p}</span>
+                  <span className="text-accent/60 text-[10px] font-black uppercase tracking-widest mt-1">Juta</span>
+                </div>
+                <div className="flex-1 p-4 flex flex-col justify-center gap-2">
+                  <div className="flex items-center gap-2 text-white/80 text-[12px] font-bold">
+                    <CheckCircle2 size={15} className="text-red-500 shrink-0" />
+                    <span>{item.sate} Sate + {item.tengkleng} Tengkleng</span>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="h-[1px] flex-1 bg-white/5"></div>
+                    <span className="text-[8px] font-black text-red-500/30 tracking-[0.2em]">ATAU</span>
+                    <div className="h-[1px] flex-1 bg-white/5"></div>
+                  </div>
+                  <div className="flex items-center gap-2 text-white/80 text-[12px] font-bold">
+                    <CheckCircle2 size={15} className="text-red-500 shrink-0" />
+                    <span>{item.bistik} Bistik + {item.tengkleng} Tengkleng</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        
-        <div className="p-4 md:p-8 space-y-4">
-          {hargaJantan.map((item, idx) => (
-            <div key={idx} className="flex items-stretch bg-black/40 border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 group/item hover:border-red-500/30 hover:bg-red-500/[0.02]">
-              <div className="bg-red-950/20 flex flex-col justify-center items-center px-6 py-4 border-r border-white/5 min-w-[110px]">
-                <span className="text-accent text-3xl font-black tracking-tighter">{item.p}</span>
-                <span className="text-accent text-[10px] font-black uppercase tracking-widest mt-1">Juta</span>
-              </div>
-              <div className="flex-1 p-4 flex flex-col justify-center gap-2">
-                <div className="flex items-center gap-2 text-white/90 text-[13px] font-bold">
-                  <CheckCircle2 size={16} className="text-red-500 shrink-0" />
-                  <span>{item.sate} Sate + {item.tengkleng} Tengkleng</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="h-[1px] flex-1 bg-white/10"></div>
-                  <span className="text-[9px] font-black text-red-500/40 tracking-[0.2em]">ATAU</span>
-                  <div className="h-[1px] flex-1 bg-white/10"></div>
-                </div>
-                <div className="flex items-center gap-2 text-white/90 text-[13px] font-bold">
-                  <CheckCircle2 size={16} className="text-red-500 shrink-0" />
-                  <span>{item.bistik} Bistik + {item.tengkleng} Tengkleng</span>
-                </div>
-              </div>
+
+        {/* BONUS KECIL (KOMPAK DI BAWAH JANTAN) */}
+        <div className="bg-black/40 backdrop-blur-md border border-accent/20 rounded-3xl p-4 flex items-center gap-4 transition-all hover:border-accent/40 shadow-lg">
+          <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center text-[#0f0e0a] shrink-0">
+            <Star size={20} fill="currentColor" strokeWidth={0} />
+          </div>
+          <div className="flex-1">
+            <h4 className="text-white font-black text-xs uppercase tracking-wider">Bonus Eksklusif</h4>
+            <div className="flex flex-wrap gap-x-3 mt-0.5">
+              {["Sertifikat", "Dokumentasi", "Souvenir"].map((b, i) => (
+                <span key={i} className="text-[9px] font-bold text-accent uppercase opacity-70">#{b}</span>
+              ))}
             </div>
-          ))}
+          </div>
         </div>
       </div>
 
-      {/* --- KARTU BETINA (THEME: EMERALD GOLD) --- */}
-      <div className="group relative bg-[#0f0f0f] border border-white/5 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:border-emerald-500/50 hover:shadow-[0_0_40px_-10px_rgba(16,185,129,0.3)] hover:-translate-y-1">
-        <div className="bg-gradient-to-r from-emerald-950 to-emerald-900 p-5 text-center border-b border-white/10">
-          <h3 className="text-white font-black text-xl uppercase tracking-[0.2em] drop-shadow-md">Kambing Betina</h3>
+      {/* --- KOLOM KANAN: BETINA --- */}
+      <div className="group relative bg-black/60 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:border-emerald-500/40 hover:shadow-[0_0_50px_-10px_rgba(16,185,129,0.4)] hover:-translate-y-1">
+        <div className="bg-gradient-to-r from-emerald-950/90 to-emerald-900/90 p-5 text-center border-b border-white/10">
+          <h3 className="text-white font-black text-xl uppercase tracking-[0.2em]">Kambing Betina</h3>
         </div>
         
         <div className="p-4 md:p-8 space-y-4">
           {hargaBetina.map((item, idx) => (
-            <div key={idx} className="flex items-stretch bg-black/40 border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 group/item hover:border-emerald-500/30 hover:bg-emerald-500/[0.02]">
-              <div className="bg-emerald-950/20 flex flex-col justify-center items-center px-6 py-4 border-r border-white/5 min-w-[110px]">
+            <div key={idx} className="flex items-stretch bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden transition-all duration-300 group/item hover:border-emerald-500/20 hover:bg-white/[0.05]">
+              <div className="bg-emerald-950/30 flex flex-col justify-center items-center px-5 py-4 border-r border-white/5 min-w-[100px]">
                 <span className="text-accent text-3xl font-black tracking-tighter">{item.p}</span>
-                <span className="text-accent text-[10px] font-black uppercase tracking-widest mt-1">Juta</span>
+                <span className="text-accent/60 text-[10px] font-black uppercase tracking-widest mt-1">Juta</span>
               </div>
               <div className="flex-1 p-4 flex flex-col justify-center gap-2">
-                <div className="flex items-center gap-2 text-white/90 text-[13px] font-bold">
-                  <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                <div className="flex items-center gap-2 text-white/80 text-[12px] font-bold">
+                  <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                   <span>{item.sate} Sate + {item.tengkleng} Tengkleng</span>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="h-[1px] flex-1 bg-white/10"></div>
-                  <span className="text-[9px] font-black text-emerald-500/40 tracking-[0.2em]">ATAU</span>
-                  <div className="h-[1px] flex-1 bg-white/10"></div>
+                  <div className="h-[1px] flex-1 bg-white/5"></div>
+                  <span className="text-[8px] font-black text-emerald-500/30 tracking-[0.2em]">ATAU</span>
+                  <div className="h-[1px] flex-1 bg-white/5"></div>
                 </div>
-                <div className="flex items-center gap-2 text-white/90 text-[13px] font-bold">
-                  <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                <div className="flex items-center gap-2 text-white/80 text-[12px] font-bold">
+                  <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                   <span>{item.bistik} Bistik + {item.tengkleng} Tengkleng</span>
                 </div>
               </div>
@@ -228,32 +246,33 @@ export default async function Home() {
           ))}
         </div>
       </div>
-
     </div>
 
-    {/* PAKET NASI BOX (MODERN GLASS) */}
-    <div className="max-w-4xl mx-auto bg-white/[0.98] backdrop-blur-xl rounded-[2.5rem] p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 shadow-2xl border border-white">
+    {/* PAKET NASI BOX (DARK GLASS) */}
+    <div className="max-w-4xl mx-auto bg-white/[0.03] backdrop-blur-2xl rounded-[2.5rem] p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 shadow-2xl border border-white/10 relative overflow-hidden">
       <div className="w-full md:w-1/3 text-center md:text-left">
-        <h3 className="text-primary text-3xl font-black uppercase tracking-tighter leading-none mb-3">PAKET NASI BOX</h3>
-        <p className="text-accent font-black text-xs uppercase tracking-[0.3em]">Higienis & Berkah</p>
+        {/* Label Harga ditambahkan di atas judul */}
+        <p className="text-accent font-black text-[10px] uppercase tracking-[0.5em] mb-1">Harga</p>
+        <h3 className="text-white text-3xl font-black uppercase tracking-tighter leading-none mb-3">PAKET NASI BOX</h3>
+        <p className="text-accent font-black text-[9px] uppercase tracking-[0.3em] opacity-70">Menu Lengkap & Berkah</p>
       </div>
       <div className="flex-1 flex flex-col gap-6 w-full">
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {["Nasi", "Kari Kentang", "Capcay", "Acar", "Kerupuk", "Alat Makan"].map((m, i) => (
-            <div key={i} className="flex items-center gap-2 bg-gray-50 border border-gray-100 p-2.5 rounded-xl transition-all hover:border-accent/30">
-              <div className="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_rgba(217,161,60,0.5)]"></div>
-              <span className="text-primary font-bold text-[10px] uppercase tracking-tighter">{m}</span>
+            <div key={i} className="flex items-center gap-2 bg-white/[0.05] border border-white/5 p-2.5 rounded-xl">
+              <div className="w-1 h-1 rounded-full bg-accent shadow-[0_0_8px_rgba(217,161,60,0.6)]"></div>
+              <span className="text-white font-bold text-[9px] uppercase tracking-tighter">{m}</span>
             </div>
           ))}
         </div>
-        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-100">
-          <div className="flex-1 bg-primary text-white p-4 rounded-2xl text-center shadow-lg transition-transform hover:scale-[1.02]">
-            <span className="block text-[9px] uppercase font-black opacity-50 mb-1 tracking-widest">Buah Semangka</span>
-            <span className="text-xl font-black text-accent tracking-tighter">Rp 13.500</span>
+        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-white/10">
+          <div className="flex-1 bg-black border border-accent/30 text-white p-4 rounded-2xl text-center transition-all hover:border-accent">
+            <span className="block text-[8px] uppercase font-black text-accent/50 mb-1 tracking-widest">Buah Semangka</span>
+            <span className="text-xl font-black text-white tracking-tighter">Rp 13.500</span>
           </div>
-          <div className="flex-1 bg-primary text-white p-4 rounded-2xl text-center shadow-lg transition-transform hover:scale-[1.02]">
-            <span className="block text-[9px] uppercase font-black opacity-50 mb-1 tracking-widest">Buah Pisang</span>
-            <span className="text-xl font-black text-accent tracking-tighter">Rp 15.000</span>
+          <div className="flex-1 bg-black border border-accent/30 text-white p-4 rounded-2xl text-center transition-all hover:border-accent">
+            <span className="block text-[8px] uppercase font-black text-accent/50 mb-1 tracking-widest">Buah Pisang</span>
+            <span className="text-xl font-black text-white tracking-tighter">Rp 15.000</span>
           </div>
         </div>
       </div>
@@ -292,7 +311,7 @@ export default async function Home() {
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <h2 className="text-4xl md:text-5xl font-black text-primary mb-8 tracking-tighter uppercase">Siap Sempurnakan Ibadah Buah Hati?</h2>
           <div className="flex flex-col items-center gap-8">
-            <Link href="https://wa.me/6281229787700" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-primary text-white px-12 py-6 rounded-2xl font-black uppercase text-xs tracking-widest shadow-2xl hover:scale-105 transition-all">
+            <Link href="https://wa.me/62895324383400" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-primary text-white px-12 py-6 rounded-2xl font-black uppercase text-xs tracking-widest shadow-2xl hover:scale-105 transition-all">
               <MessageCircle size={20} /> Konsultasi Lewat WhatsApp
             </Link>
             <div className="flex gap-6 mt-4">
