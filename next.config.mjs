@@ -22,10 +22,17 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      // FITUR BARU: Izinkan domain gambar YouTube untuk auto-thumbnail
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 
-  // 3. Opsi Tambahan (Opsional)
+  // 3. Opsi Tambahan
   // Jika Anda menggunakan banyak icon dari lucide-react, ini membantu optimasi build
   transpilePackages: ['lucide-react'],
 };
