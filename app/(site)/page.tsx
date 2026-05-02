@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import Script from "next/script"; // Tambahkan untuk JSON-LD
+import Script from "next/script";
 import Hero from "@/components/Hero";
 import Features from "@/components/Features";
 import Gallery from "@/components/Gallery";
@@ -33,7 +33,6 @@ export const metadata: Metadata = {
 // --- QUERY DATA DINAMIS DARI SANITY ---
 const getData = async () => {
   const query = groq`{
-    // Step 1: Menarik statistik rating secara dinamis
     "ratingStats": {
       "totalReviews": count(*[_type == "testimony"]),
       "avgRating": "4.9" 
@@ -87,16 +86,27 @@ const hargaBetina = [
 export default async function Home() {
   const { posts, testimonials, gallery, ratingStats } = await getData();
 
-  // Step 2: Membuat objek JSON-LD untuk Schema 5 Bintang
+  // FIX SCHEMA: Menggunakan LocalBusiness agar 5 Bintang muncul di Google
   const jsonLd = {
     "@context": "https://schema.org/",
-    "@type": "Service",
+    "@type": "LocalBusiness",
     "name": "Farhan Aqiqah",
     "image": "https://www.jasaqiqah.my.id/images/kantor.jpg",
-    "description": "Layanan jasa aqiqah terbaik di Purwokerto dan Banyumas.",
-    "brand": {
-      "@type": "Brand",
-      "name": "Farhan Aqiqah"
+    "description": "Layanan jasa aqiqah Purwokerto & Banyumas terbaik. Masakan lezat, profesional, dan sesuai syariat.",
+    "url": "https://www.jasaqiqah.my.id",
+    "telephone": "+62895324383400",
+    "priceRange": "$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Purwokerto",
+      "addressLocality": "Banyumas",
+      "addressRegion": "Jawa Tengah",
+      "addressCountry": "ID"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -7.4244,
+      "longitude": 109.2303
     },
     "aggregateRating": {
       "@type": "AggregateRating",
@@ -109,7 +119,7 @@ export default async function Home() {
 
   return (
     <main className="w-full overflow-hidden">
-      {/* Script untuk Google Bintang */}
+      {/* Script Structured Data JSON-LD */}
       <Script
         id="structured-data"
         type="application/ld+json"
@@ -146,7 +156,6 @@ export default async function Home() {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-stretch mb-12">
-            {/* KARTU JANTAN */}
             <div className="relative bg-[#0d0d0d]/90 backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden p-8 shadow-2xl">
               <h3 className="text-white font-black text-3xl mb-6 uppercase">Kambing Jantan</h3>
               <div className="space-y-3">
@@ -159,7 +168,6 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* KARTU BETINA */}
             <div className="relative bg-[#0d0d0d]/90 backdrop-blur-2xl border border-white/10 rounded-[2rem] overflow-hidden p-8 shadow-2xl">
               <h3 className="text-white font-black text-3xl mb-6 uppercase">Kambing Betina</h3>
               <div className="space-y-3">
@@ -198,46 +206,29 @@ export default async function Home() {
               ))}
             </div>
           </div>
-
-          <p className="text-white/20 text-center mt-12 text-[10px] font-bold uppercase tracking-[0.2em]">* Harga sewaktu-waktu dapat berubah</p>
         </div>
       </section>
 
-      {/* 4. GALLERY SECTION (RE-INTEGRATED) */}
       <Gallery items={gallery} />
-
       <NewsSection posts={posts} />
-      
       <Testimonials data={testimonials} />
 
-      {/* 6. FAQ */}
+      {/* FAQ SECTION */}
       <section className="py-24 bg-gray-50">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-black mb-12 uppercase tracking-tighter text-primary">FAQ Farhan Aqiqah</h2>
           <div className="space-y-4 text-left">
             {[
-              { 
-                q: "Apakah jasa aqiqah di Farhan Aqiqah sudah sesuai syariat?", 
-                a: "Kami memprioritaskan keabsahan aqiqah sebagai ibadah. Dari pemilihan kambing cukup umur hingga penyembelihan sesuai kaidah fikih." 
-              },
-              { 
-                q: "Bagaimana cara pesan aqiqah di Farhan Aqiqah?", 
-                a: "Sangat mudah! Cukup konsultasi melalui WhatsApp, pilih paket yang diinginkan, dan tim kami akan mengelola semuanya dari hulu hingga hilir." 
-              },
-              { 
-                q: "Apakah melayani pengiriman area di luar kota?", 
-                a: "Kami melayani seluruh area Kabupaten Banyumas dan sekitarnya (seperti Cilacap, Purbalingga) untuk menjaga kualitas masakan agar tetap segar sampai di tujuan." 
-              }
+              { q: "Apakah jasa aqiqah di Farhan Aqiqah sudah sesuai syariat?", a: "Kami memprioritaskan keabsahan aqiqah sebagai ibadah. Dari pemilihan kambing cukup umur hingga penyembelihan sesuai kaidah fikih." },
+              { q: "Bagaimana cara pesan aqiqah di Farhan Aqiqah?", a: "Sangat mudah! Cukup konsultasi melalui WhatsApp, pilih paket yang diinginkan, dan tim kami akan mengelola semuanya." },
+              { q: "Apakah melayani pengiriman area di luar kota?", a: "Kami melayani seluruh area Kabupaten Banyumas dan sekitarnya (seperti Cilacap, Purbalingga) untuk menjaga kualitas masakan." }
             ].map((faq, i) => (
               <details key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 group cursor-pointer overflow-hidden transition-all">
                 <summary className="font-bold text-primary flex justify-between items-center text-lg list-none">
-                  {faq.q} 
-                  <span className="text-accent transition-transform duration-300 group-open:rotate-180">▼</span>
+                  {faq.q} <span className="text-accent transition-transform duration-300 group-open:rotate-180">▼</span>
                 </summary>
                 <div className="overflow-hidden group-open:animate-in fade-in slide-in-from-top-2 duration-500">
-                  <p className="mt-4 text-gray-500 text-sm font-medium leading-relaxed">
-                    {faq.a}
-                  </p>
+                  <p className="mt-4 text-gray-500 text-sm font-medium leading-relaxed">{faq.a}</p>
                 </div>
               </details>
             ))}
@@ -245,7 +236,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 7. FINAL CTA */}
       <section className="py-24 bg-accent text-center relative overflow-hidden">
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <h2 className="text-4xl md:text-5xl font-black text-primary mb-8 tracking-tighter">Siap Sempurnakan Ibadah Buah Hati?</h2>
