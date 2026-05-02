@@ -65,7 +65,7 @@ export default function Hero() {
                 Pilih Paket <ArrowRight size={20} />
               </a>
               <a 
-                href="https://wa.me/6281229787700" 
+                href="https://wa.me/62895324383400" 
                 className="inline-flex items-center justify-center gap-3 bg-white/5 text-white border border-white/20 px-10 py-5 rounded-2xl font-black uppercase text-sm tracking-widest hover:bg-white/20 transition-all backdrop-blur-md active:scale-95"
               >
                 <MessageCircle size={20} /> Konsultasi

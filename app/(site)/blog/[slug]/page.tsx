@@ -12,6 +12,7 @@ import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { groq } from "next-sanity";
 import ViewTracker from "./ViewTracker";
+import SocialShare from "@/components/SocialShare";
 
 // --- FETCH DATA ARTIKEL DAN RELATED POSTS ---
 async function getPostData(slug: string) {
@@ -169,6 +170,9 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
                 Hubungi Admin
               </Link>
             </div>
+			
+			{/* KOMPONEN SHARE MEDIA SOSIAL */}
+<SocialShare title={post.title} slug={params.slug} />
 
             {/* RELATED POSTS SECTION */}
             {relatedPosts?.length > 0 && (
