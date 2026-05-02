@@ -3,36 +3,36 @@ import { MessageCircle, ArrowRight, Star } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-24 pb-12">
+    <section className="relative w-full min-h-screen flex items-center overflow-hidden pt-24 pb-12 bg-primary">
       
-      {/* 1. Background Image Utama */}
+      {/* 1. Background Image Utama - Dioptimalkan dengan sizes */}
       <div className="absolute inset-0 z-0">
         <Image
           src="/images/islamic.png"
           alt="Farhan Aqiqah Background"
           fill
           className="object-cover"
-          priority
+          priority // Prioritas utama untuk background
+          sizes="100vw" // Memberitahu browser untuk tidak mendownload ukuran yang lebih besar dari layar
+          quality={85} // Mengurangi sedikit kualitas untuk penghematan bandwidth yang signifikan
         />
-        {/* Gradasi Transparan - Memberikan kegelapan di sisi kiri/bawah agar teks kontras */}
+        {/* Gradasi Transparan */}
         <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent opacity-60" />
       </div>
 
-      {/* 2. Background Pattern - Transparansi sangat rendah */}
+      {/* 2. Background Pattern - Dioptimalkan dengan CSS Class (Menghindari Inline Style Berat) */}
       <div 
-        className="absolute inset-0 opacity-[0.05] pointer-events-none z-[1]" 
+        className="absolute inset-0 opacity-[0.05] pointer-events-none z-[1] bg-repeat bg-[length:500px]" 
         style={{ 
           backgroundImage: "url('/images/islamic.png')", 
-          backgroundSize: '500px', 
-          backgroundRepeat: 'repeat'
         }}
       />
 
       {/* 3. Dekorasi Teks Besar di Background */}
       <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none z-[1]">
         <h2 className="text-[20vw] font-black text-white leading-none tracking-tighter">
-          
+          {/* Kosong untuk estetika sesuai kode asli */}
         </h2>
       </div>
 
@@ -73,7 +73,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* SISI KANAN: VISUAL UTAMA */}
+          {/* SISI KANAN: VISUAL UTAMA - Penentu skor LCP */}
           <div className="lg:col-span-5 relative order-1 lg:order-2 flex justify-center lg:justify-end">
             <div className="relative w-full max-w-[420px]">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-accent/20 rounded-full blur-[100px] opacity-30 pointer-events-none" />
@@ -84,10 +84,13 @@ export default function Hero() {
                   alt="Dokumentasi Farhan Aqiqah"
                   fill
                   className="object-cover transition-transform duration-[2000ms] hover:scale-105"
-                  priority
+                  priority // Wajib untuk LCP
+                  sizes="(max-width: 768px) 100vw, 420px" // Optimasi download gambar berdasarkan layar
+                  quality={90}
                 />
               </div>
 
+              {/* Rating Pelanggan */}
               <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 lg:-left-12 lg:translate-x-0 bg-white p-5 rounded-[2rem] shadow-2xl z-20 min-w-[220px] hidden sm:block border border-gray-100">
                  <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-accent/20 rounded-2xl flex items-center justify-center text-accent">

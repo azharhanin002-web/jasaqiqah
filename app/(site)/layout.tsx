@@ -5,23 +5,23 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 
-// Konfigurasi Font Inter dengan subset Latin
+// 1. OPTIMASI FONT: Menambahkan preload agar font dimuat segera tanpa menunggu CSS selesai diproses.
 const inter = Inter({ 
   subsets: ["latin"],
   display: 'swap',
   variable: '--font-inter',
+  preload: true, 
 });
 
-// Konfigurasi Viewport (Terpisah dari Metadata di Next.js 15)
+// 2. KONFIGURASI VIEWPORT: Menyesuaikan themeColor ke emerald gelap agar serasi dengan brand.
 export const viewport: Viewport = {
-  themeColor: "#ffffff", // Sesuaikan dengan warna brand Anda
+  themeColor: "#054432", 
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
 };
 
 export const metadata: Metadata = {
-  // metadataBase disetel ke www agar sinkron dengan GSC & sitemap.ts Anda
   metadataBase: new URL("https://www.jasaqiqah.my.id"),
   title: {
     default: "Farhan Aqiqah - Jasa Aqiqah Purwokerto & Banyumas Nomor Satu",
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "Odpd2CclXtZRjuWQpqt44nYm8iaVcsCILU4Azkd-XxY", // Ganti dengan kode dari Google Search Console
+    google: "Odpd2CclXtZRjuWQpqt44nYm8iaVcsCILU4Azkd-XxY",
   },
 };
 
@@ -100,23 +100,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id" className="scroll-smooth">
+      <head>
+        {/* 3. DNS PREFETCH & PRECONNECT: Mempercepat jabat tangan ke CDN Sanity guna menekan LCP. */}
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
+      </head>
       <body
         className={`${inter.variable} ${inter.className} bg-white text-primary antialiased selection:bg-accent/30 selection:text-primary`}
       >
-        {/* Header tetap di atas (Fixed) */}
         <Header />
         
-        {/* Area Konten Utama dengan transisi halus */}
         <main className="relative min-h-screen flex flex-col">
           <div className="flex-grow">
             {children}
           </div>
         </main>
         
-        {/* Footer di bawah */}
         <Footer />
         
-        {/* Floating WhatsApp Button */}
         <WhatsAppButton />
       </body>
     </html>
