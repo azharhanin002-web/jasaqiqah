@@ -36,10 +36,9 @@ export default function Header({ variant = "dark" }: HeaderProps) {
     <header
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
-        // Logika Background saat Scroll
         isScrolled 
           ? isLight 
-            ? "bg-white/90 backdrop-blur-md py-3 border-b border-gray-100 shadow-sm" 
+            ? "bg-white/95 backdrop-blur-md py-3 border-b border-gray-100 shadow-md" // Header Putih saat scroll di hal. putih
             : "bg-primary/95 backdrop-blur-md py-3 border-b border-accent/20 shadow-xl"
           : "bg-transparent py-6"
       )}
@@ -60,11 +59,11 @@ export default function Header({ variant = "dark" }: HeaderProps) {
           <div className="flex flex-col">
             <span className={cn(
               "font-black text-lg leading-none tracking-tighter transition-colors",
-              isLight ? "text-primary" : "text-white"
+              isLight ? "text-black" : "text-white" // Paksa hitam di hal. putih
             )}>
               FARHAN <span className="text-accent">AQIQAH</span>
             </span>
-            <span className="text-[9px] text-accent/70 uppercase tracking-[0.4em] font-black">
+            <span className="text-[9px] text-accent/80 uppercase tracking-[0.4em] font-black">
               Premium Service
             </span>
           </div>
@@ -79,8 +78,8 @@ export default function Header({ variant = "dark" }: HeaderProps) {
               className={cn(
                 "text-[11px] font-black uppercase tracking-[0.2em] transition-colors",
                 isLight 
-                  ? "text-primary/70 hover:text-accent" 
-                  : "text-gray-300 hover:text-accent"
+                  ? "text-black/80 hover:text-accent" 
+                  : "text-white/70 hover:text-accent"
               )}
             >
               {link.name}
@@ -91,7 +90,7 @@ export default function Header({ variant = "dark" }: HeaderProps) {
             className={cn(
               "flex items-center gap-2 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-all shadow-lg active:scale-95",
               isLight 
-                ? "bg-primary text-white hover:bg-accent hover:text-primary" 
+                ? "bg-black text-white hover:bg-accent hover:text-black" // Tombol Hitam di hal. putih
                 : "bg-accent text-primary hover:bg-white"
             )}
           >
@@ -104,7 +103,7 @@ export default function Header({ variant = "dark" }: HeaderProps) {
         <button
           className={cn(
             "md:hidden p-2 transition-colors",
-            isLight ? "text-primary" : "text-white"
+            isLight ? "text-black" : "text-white"
           )}
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle Menu"
@@ -135,7 +134,7 @@ export default function Header({ variant = "dark" }: HeaderProps) {
                   onClick={() => setIsOpen(false)}
                   className={cn(
                     "text-lg font-black uppercase tracking-[0.3em] transition-colors",
-                    isLight ? "text-primary hover:text-accent" : "text-white hover:text-accent"
+                    isLight ? "text-black hover:text-accent" : "text-white hover:text-accent"
                   )}
                 >
                   {link.name}
@@ -146,7 +145,7 @@ export default function Header({ variant = "dark" }: HeaderProps) {
                 href="https://wa.me/62895324383400"
                 className={cn(
                   "py-4 rounded-2xl font-black uppercase text-xs tracking-widest active:scale-95 transition-all shadow-md",
-                  isLight ? "bg-primary text-white" : "bg-accent text-primary"
+                  isLight ? "bg-black text-white" : "bg-accent text-primary"
                 )}
               >
                 Chat WhatsApp
