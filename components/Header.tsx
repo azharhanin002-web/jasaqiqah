@@ -14,9 +14,15 @@ const navLinks = [
   { name: "Kontak", href: "/kontak" },
 ];
 
-export default function Header() {
+interface HeaderProps {
+  variant?: "light" | "dark";
+}
+
+export default function Header({ variant = "dark" }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const isLight = variant === "light";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,12 +36,14 @@ export default function Header() {
     <header
       className={cn(
         "fixed top-0 w-full z-50 transition-all duration-300",
+        // Logika Background saat Scroll
         isScrolled 
-          ? "bg-primary/95 backdrop-blur-md py-3 border-b border-accent/20 shadow-xl" 
+          ? isLight 
+            ? "bg-white/90 backdrop-blur-md py-3 border-b border-gray-100 shadow-sm" 
+            : "bg-primary/95 backdrop-blur-md py-3 border-b border-accent/20 shadow-xl"
           : "bg-transparent py-6"
       )}
     >
-      {/* PERBAIKAN: Mengunci lebar maksimal di max-w-6xl agar tidak terlalu lebar */}
       <div className="max-w-6xl mx-auto px-6 flex justify-between items-center">
         
         {/* Logo Section */}
@@ -50,7 +58,10 @@ export default function Header() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="text-white font-black text-lg leading-none tracking-tighter">
+            <span className={cn(
+              "font-black text-lg leading-none tracking-tighter transition-colors",
+              isLight ? "text-primary" : "text-white"
+            )}>
               FARHAN <span className="text-accent">AQIQAH</span>
             </span>
             <span className="text-[9px] text-accent/70 uppercase tracking-[0.4em] font-black">
@@ -65,14 +76,24 @@ export default function Header() {
             <Link
               key={link.name}
               href={link.href}
-              className="text-[11px] font-black uppercase tracking-[0.2em] text-gray-300 hover:text-accent transition-colors"
+              className={cn(
+                "text-[11px] font-black uppercase tracking-[0.2em] transition-colors",
+                isLight 
+                  ? "text-primary/70 hover:text-accent" 
+                  : "text-gray-300 hover:text-accent"
+              )}
             >
               {link.name}
             </Link>
           ))}
           <a
             href="https://wa.me/62895324383400"
-            className="flex items-center gap-2 bg-accent hover:bg-white text-primary px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-all shadow-lg active:scale-95"
+            className={cn(
+              "flex items-center gap-2 px-6 py-2.5 rounded-full font-black text-[10px] uppercase tracking-widest transition-all shadow-lg active:scale-95",
+              isLight 
+                ? "bg-primary text-white hover:bg-accent hover:text-primary" 
+                : "bg-accent text-primary hover:bg-white"
+            )}
           >
             <Phone size={14} strokeWidth={3} className="flex-shrink-0" />
             Konsultasi
@@ -81,7 +102,10 @@ export default function Header() {
 
         {/* Mobile Toggle */}
         <button
-          className="md:hidden text-white p-2"
+          className={cn(
+            "md:hidden p-2 transition-colors",
+            isLight ? "text-primary" : "text-white"
+          )}
           onClick={() => setIsOpen(!isOpen)}
           aria-label="Toggle Menu"
         >
@@ -96,7 +120,12 @@ export default function Header() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute top-full left-0 w-full bg-primary border-b border-accent/20 px-6 py-10 md:hidden shadow-2xl"
+            className={cn(
+              "absolute top-full left-0 w-full border-b px-6 py-10 md:hidden shadow-2xl",
+              isLight 
+                ? "bg-white border-gray-100" 
+                : "bg-primary border-accent/20"
+            )}
           >
             <div className="flex flex-col gap-6 text-center max-w-sm mx-auto">
               {navLinks.map((link) => (
@@ -104,15 +133,21 @@ export default function Header() {
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-lg font-black uppercase tracking-[0.3em] text-white hover:text-accent"
+                  className={cn(
+                    "text-lg font-black uppercase tracking-[0.3em] transition-colors",
+                    isLight ? "text-primary hover:text-accent" : "text-white hover:text-accent"
+                  )}
                 >
                   {link.name}
                 </Link>
               ))}
-              <hr className="border-white/5" />
+              <hr className={isLight ? "border-gray-100" : "border-white/5"} />
               <a
                 href="https://wa.me/62895324383400"
-                className="bg-accent text-primary py-4 rounded-2xl font-black uppercase text-xs tracking-widest active:scale-95"
+                className={cn(
+                  "py-4 rounded-2xl font-black uppercase text-xs tracking-widest active:scale-95 transition-all shadow-md",
+                  isLight ? "bg-primary text-white" : "bg-accent text-primary"
+                )}
               >
                 Chat WhatsApp
               </a>
