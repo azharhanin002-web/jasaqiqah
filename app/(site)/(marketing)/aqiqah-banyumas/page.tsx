@@ -156,12 +156,16 @@ export default function AqiqahBanyumasPage() {
                             <CheckCircle2 size={15} className="text-red-500 shrink-0" />
                             <span>{item.sate} Sate + {item.tengkleng} Tengkleng</span>
                           </div>
-                          {/* PENAMBAHAN KATA "ATAU" */}
+                          
+                          {/* PENAMBAHAN KATA "ATAU" DENGAN EMAS MENYALA */}
                           <div className="flex items-center gap-4">
                             <div className="h-[1px] flex-1 bg-white/5"></div>
-                            <span className="text-[8px] font-black text-red-500/30 tracking-[0.2em]">ATAU</span>
+                            <span className="text-[10px] font-black text-accent tracking-[0.3em] drop-shadow-[0_0_10px_rgba(217,161,60,0.8)]">
+                              ATAU
+                            </span>
                             <div className="h-[1px] flex-1 bg-white/5"></div>
                           </div>
+
                           <div className="flex items-center gap-2 text-white/80 text-[12px] font-bold">
                             <CheckCircle2 size={15} className="text-red-500 shrink-0" />
                             <span>{item.bistik} Bistik + {item.tengkleng} Tengkleng</span>

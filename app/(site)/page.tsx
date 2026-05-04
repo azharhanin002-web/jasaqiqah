@@ -231,7 +231,6 @@ export default async function Home() {
 
  {/* 3. PRICING SECTION (DEEP GOLDEN TWILIGHT - COMPACT) */}
 <section id="paket" className="py-24 bg-gradient-to-b from-[#0f0e0a] via-[#261a02] to-[#0f0e0a] relative overflow-hidden">
-  
   <div className="max-w-5xl mx-auto px-6 relative z-10">
     <div className="text-center mb-16">
       <h2 className="text-3xl md:text-5xl font-black text-white tracking-tighter mb-3 uppercase">
@@ -242,12 +241,10 @@ export default async function Home() {
       </p>
     </div>
 
-    {/* Container Grid Diperkecil agar kartu tidak terlalu lebar */}
     <div className="grid lg:grid-cols-2 gap-8 items-start mb-16">
       
       {/* --- KOLOM KIRI: JANTAN + BONUS --- */}
       <div className="space-y-6">
-        {/* KARTU JANTAN (DARK GLASS) */}
         <div className="group relative bg-black/60 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:border-red-500/40 hover:shadow-[0_0_50px_-10px_rgba(220,38,38,0.4)] hover:-translate-y-1">
           <div className="bg-gradient-to-r from-red-950/90 to-red-900/90 p-5 text-center border-b border-white/10">
             <h3 className="text-white font-black text-xl uppercase tracking-[0.2em]">Kambing Jantan</h3>
@@ -265,11 +262,16 @@ export default async function Home() {
                     <CheckCircle2 size={15} className="text-red-500 shrink-0" />
                     <span>{item.sate} Sate + {item.tengkleng} Tengkleng</span>
                   </div>
+                  
+                  {/* UPDATE: ATAU EMAS MENYALA */}
                   <div className="flex items-center gap-4">
                     <div className="h-[1px] flex-1 bg-white/5"></div>
-                    <span className="text-[8px] font-black text-red-500/30 tracking-[0.2em]">ATAU</span>
+                    <span className="text-[10px] font-black text-accent tracking-[0.3em] drop-shadow-[0_0_10px_rgba(217,161,60,0.8)]">
+                      ATAU
+                    </span>
                     <div className="h-[1px] flex-1 bg-white/5"></div>
                   </div>
+
                   <div className="flex items-center gap-2 text-white/80 text-[12px] font-bold">
                     <CheckCircle2 size={15} className="text-red-500 shrink-0" />
                     <span>{item.bistik} Bistik + {item.tengkleng} Tengkleng</span>
@@ -280,7 +282,6 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* BONUS KECIL (KOMPAK DI BAWAH JANTAN) */}
         <div className="bg-black/40 backdrop-blur-md border border-accent/20 rounded-3xl p-4 flex items-center gap-4 transition-all hover:border-accent/40 shadow-lg">
           <div className="w-10 h-10 bg-accent rounded-xl flex items-center justify-center text-[#0f0e0a] shrink-0">
             <Star size={20} fill="currentColor" strokeWidth={0} />
@@ -314,11 +315,16 @@ export default async function Home() {
                   <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                   <span>{item.sate} Sate + {item.tengkleng} Tengkleng</span>
                 </div>
+
+                {/* UPDATE: ATAU EMAS MENYALA */}
                 <div className="flex items-center gap-4">
                   <div className="h-[1px] flex-1 bg-white/5"></div>
-                  <span className="text-[8px] font-black text-emerald-500/30 tracking-[0.2em]">ATAU</span>
+                  <span className="text-[10px] font-black text-accent tracking-[0.3em] drop-shadow-[0_0_10px_rgba(217,161,60,0.8)]">
+                    ATAU
+                  </span>
                   <div className="h-[1px] flex-1 bg-white/5"></div>
                 </div>
+
                 <div className="flex items-center gap-2 text-white/80 text-[12px] font-bold">
                   <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                   <span>{item.bistik} Bistik + {item.tengkleng} Tengkleng</span>
@@ -333,7 +339,6 @@ export default async function Home() {
     {/* PAKET NASI BOX (DARK GLASS) */}
     <div className="max-w-4xl mx-auto bg-white/[0.03] backdrop-blur-2xl rounded-[2.5rem] p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 shadow-2xl border border-white/10 relative overflow-hidden">
       <div className="w-full md:w-1/3 text-center md:text-left">
-        {/* Label Harga ditambahkan di atas judul */}
         <p className="text-accent font-black text-[10px] uppercase tracking-[0.5em] mb-1">Harga</p>
         <h3 className="text-white text-3xl font-black uppercase tracking-tighter leading-none mb-3">PAKET NASI BOX</h3>
         <p className="text-accent font-black text-[9px] uppercase tracking-[0.3em] opacity-70">Menu Lengkap & Berkah</p>
