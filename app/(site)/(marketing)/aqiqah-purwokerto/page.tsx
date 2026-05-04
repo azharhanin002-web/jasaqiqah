@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { CheckCircle2, MessageCircle, TrendingUp, Users, ChefHat } from "lucide-react";
 
 // --- SEO & METADATA (Spesifik untuk Halaman Aqiqah Purwokerto) ---
@@ -136,8 +135,6 @@ export default function AqiqahPurwokertoPage() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }

@@ -2,7 +2,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 import Script from "next/script";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { CheckCircle2, MessageCircle, Star, ShieldCheck, Utensils, Truck } from "lucide-react";
 
 // --- SEO & METADATA (Spesifik untuk Wilayah Banyumas) ---
@@ -73,7 +72,6 @@ export default function AqiqahBanyumasPage() {
 
   return (
     <>
-      {/* Memanggil Header dengan varian light agar kontras di halaman putih */}
       <Header variant="light" />
 
       <main className="w-full bg-white overflow-hidden">
@@ -158,6 +156,12 @@ export default function AqiqahBanyumasPage() {
                             <CheckCircle2 size={15} className="text-red-500 shrink-0" />
                             <span>{item.sate} Sate + {item.tengkleng} Tengkleng</span>
                           </div>
+                          {/* PENAMBAHAN KATA "ATAU" */}
+                          <div className="flex items-center gap-4">
+                            <div className="h-[1px] flex-1 bg-white/5"></div>
+                            <span className="text-[8px] font-black text-red-500/30 tracking-[0.2em]">ATAU</span>
+                            <div className="h-[1px] flex-1 bg-white/5"></div>
+                          </div>
                           <div className="flex items-center gap-2 text-white/80 text-[12px] font-bold">
                             <CheckCircle2 size={15} className="text-red-500 shrink-0" />
                             <span>{item.bistik} Bistik + {item.tengkleng} Tengkleng</span>
@@ -214,8 +218,6 @@ export default function AqiqahBanyumasPage() {
           </div>
         </section>
       </main>
-
-      <Footer />
     </>
   );
 }
