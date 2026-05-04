@@ -13,21 +13,62 @@ import { MessageCircle, Star, Facebook, Instagram, TrendingUp, CheckCircle2 } fr
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 
-// --- SEO & METADATA ---
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.jasaqiqah.my.id"),
-  title: "Farhan Aqiqah - Jasa Aqiqah Purwokerto & Banyumas Nomor Satu",
-  description: "Layanan jasa aqiqah Purwokerto & Banyumas terbaik. Masakan lezat, profesional, praktis, dan sesuai syariat. Pilihan tepat untuk akikah buah hati Anda.",
-  keywords: ["aqiqah purwokerto", "aqiqah banyumas", "jasa aqiqah terpercaya", "farhan aqiqah"],
-  alternates: { canonical: "/" },
+
+  title: "Jasa Aqiqah Purwokerto & Banyumas Terpercaya | Paket Aqiqah Lengkap, Murah & Gratis Antar - Farhan Aqiqah",
+
+  description: "Jasa aqiqah Purwokerto & Banyumas terpercaya. Paket lengkap, harga murah, gratis antar, masakan lezat & sesuai syariat. Pesan mudah, konsultasi gratis via WhatsApp sekarang.",
+
+  keywords: [
+    "jasa aqiqah purwokerto",
+    "aqiqah purwokerto murah",
+    "jasa aqiqah banyumas",
+    "paket aqiqah purwokerto",
+    "harga aqiqah banyumas",
+    "aqiqah terdekat purwokerto",
+    "aqiqah siap antar",
+    "farhan aqiqah"
+  ],
+
+  alternates: {
+    canonical: "https://www.jasaqiqah.my.id"
+  },
+
   openGraph: {
-    title: "Farhan Aqiqah - Layanan Jasa Aqiqah Purwokerto Nomor Satu",
-    description: "Profesional, Praktis, dan Sesuai Syariat. Layanan aqiqah terpercaya untuk wilayah Banyumas dan sekitarnya.",
+    title: "Jasa Aqiqah Purwokerto & Banyumas | Murah, Lengkap & Gratis Antar",
+    description: "Layanan aqiqah terpercaya di Purwokerto & Banyumas. Paket lengkap, higienis, sesuai syariat. Order mudah via WhatsApp sekarang.",
     url: "https://www.jasaqiqah.my.id",
     siteName: "Farhan Aqiqah",
-    images: [{ url: "/images/og-image-large.png", width: 1200, height: 630, alt: "Farhan Aqiqah Purwokerto" }],
+    images: [
+      {
+        url: "/images/og-image-large.png",
+        width: 1200,
+        height: 630,
+        alt: "Jasa Aqiqah Purwokerto & Banyumas Farhan Aqiqah"
+      }
+    ],
     locale: "id_ID",
     type: "website",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Jasa Aqiqah Purwokerto & Banyumas | Murah & Terpercaya",
+    description: "Paket aqiqah lengkap, harga terjangkau, gratis antar. Pesan mudah via WhatsApp sekarang.",
+    images: ["/images/og-image-large.png"],
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
