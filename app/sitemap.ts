@@ -1,30 +1,70 @@
-import { MetadataRoute } from 'next'
+import { MetadataRoute } from 'next';
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 
+// 1. Tipe Data Modern: Mencegah error 'any' dan membuat kode lebih stabil
+interface SanityPost {
+  slug: string;
+  _updatedAt: string;
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Mendefinisikan URL dasar sesuai dengan properti di GSC
   const baseUrl = 'https://www.jasaqiqah.my.id';
 
-  // 1. Ambil semua slug postingan dari Sanity secara dinamis
-  const query = groq`*[_type == "post"] { "slug": slug.current, _updatedAt }`;
-  const posts = await client.fetch(query, {}, { next: { revalidate: 3600 } });
+  // 2. Error Handling & Fetching dari Sanity
+  let posts: SanityPost[] = [];
+  try {
+    // Hanya ambil post yang punya slug (mencegah error draft kosong)
+    const query = groq`*[_type == "post" && defined(slug.current)] {
+      "slug": slug.current,
+      _updatedAt
+    }`;
+    
+    posts = await client.fetch(query, {}, { next: { revalidate: 3600 } });
+  } catch (error) {
+    console.error("Gagal mengambil data blog untuk sitemap:", error);
+    // Jika gagal, sitemap tetap jalan tanpa data blog (tidak bikin web crash)
+  }
 
-  // 2. Petakan postingan blog menjadi format sitemap
-  const postEntries: MetadataRoute.Sitemap = posts.map((post: any) => ({
+  // 3. Pemetaan Artikel Dinamis (Prioritas 0.7)
+  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(post._updatedAt),
     changeFrequency: 'weekly',
-    priority: 0.6,
+    priority: 0.7,
   }));
 
-  // 3. Gabungkan rute statis dengan rute dinamis dari Sanity
-  return [
+  // 4. Daftar Halaman Statis FULL SEO LOKAL (Ladang Konversi)
+  const staticRoutes: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
+      url: `${baseUrl}`,
       lastModified: new Date(),
       changeFrequency: 'daily',
-      priority: 1,
+      priority: 1.0, // Homepage wajib prioritas tertinggi
+    },
+    {
+      url: `${baseUrl}/aqiqah-purwokerto`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9, // Halaman wilayah sangat penting untuk SEO Lokal
+    },
+    {
+      url: `${baseUrl}/aqiqah-banyumas`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/aqiqah-purbalingga`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/paket-aqiqah-murah`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9, // Artikel Pilar
     },
     {
       url: `${baseUrl}/paket-harga`,
@@ -35,9 +75,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${baseUrl}/blog`,
       lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
+      changeFrequency: 'daily',
+      priority: 0.8, // Halaman daftar blog (harus sering dirayapi)
     },
-    ...postEntries,
+    {
+      url: `${baseUrl}/kontak`,
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 0.5, // Halaman statis yang jarang berubah
+    },
   ];
+
+  // 5. Gabungkan rute statis dan dinamis dengan rapi
+  return [...staticRoutes, ...postEntries];
 }
