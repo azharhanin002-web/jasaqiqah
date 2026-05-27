@@ -9,12 +9,12 @@ export const metadata: Metadata = {
 export default function KontakPage() {
   return (
     <>
-      {/* 1. FIXED HEADER WRAPPER: Memaksa elemen navbar melayang bawaan agar mengunci background gelap sejak awal sebelum di-scroll */}
+      {/* 1. FIXED HEADER WRAPPER */}
       <div className="w-full relative z-50 bg-[#0f0e0a] h-20 [&_header]:bg-[#0f0e0a] [&_nav]:bg-[#0f0e0a]">
         <Header variant="dark" />
       </div>
 
-      {/* 2. MAIN CONTENT AREA: Bersih latar putih dari batas bawah navbar */}
+      {/* 2. MAIN CONTENT AREA */}
       <main className="pt-16 pb-24 bg-white">
         <div className="container mx-auto px-6 max-w-4xl">
           
@@ -35,7 +35,8 @@ export default function KontakPage() {
             {/* Info Detail */}
             <div className="space-y-8">
               <div className="flex items-start">
-                <div className="bg-amber-100 p-3 rounded-2xl text-amber-700 mr-4 shrink-0 shadow-sm">
+                {/* MODIFIKASI: Pangkas radius ikon lokasi menjadi rounded-md */}
+                <div className="bg-amber-100 p-3 rounded-md text-amber-700 mr-4 shrink-0 shadow-sm">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -51,7 +52,8 @@ export default function KontakPage() {
               </div>
               
               <div className="flex items-start">
-                <div className="bg-amber-100 p-3 rounded-2xl text-amber-700 mr-4 shrink-0 shadow-sm">
+                {/* MODIFIKASI: Pangkas radius ikon jam menjadi rounded-md */}
+                <div className="bg-amber-100 p-3 rounded-md text-amber-700 mr-4 shrink-0 shadow-sm">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                   </svg>
@@ -65,7 +67,8 @@ export default function KontakPage() {
             </div>
 
             {/* MAP CONTAINER */}
-            <div className="bg-gray-50 rounded-[2.5rem] h-64 flex items-center justify-center border border-gray-200 overflow-hidden group hover:border-amber-500/30 transition-colors shadow-sm relative">
+            {/* MODIFIKASI: Mengubah bingkai luar container Peta dari rounded-[2.5rem] menjadi rounded-md */}
+            <div className="bg-gray-50 rounded-md h-64 flex items-center justify-center border border-gray-200 overflow-hidden group hover:border-amber-500/30 transition-colors shadow-sm relative">
               <iframe 
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.1276514125684!2d109.2479343!3d-7.451127000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e655c2ed126d177%3A0xd40189b4d77e4995!2sAQIQAH%20PURWOKERTO!5e0!3m2!1sid!2sid!4v1779834637808!5m2!1sid!2sid" 
                 className="w-full h-full absolute inset-0"
