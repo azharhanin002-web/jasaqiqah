@@ -7,7 +7,7 @@ import {
   MessageCircle, User, ChevronRight, TrendingUp,
   Clock, BookOpen
 } from "lucide-react";
-import { PortableText, PortableTextComponents } from "@portabletext/react"; // Tambahkan PortableTextComponents
+import { PortableText, PortableTextComponents } from "@portabletext/react";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { groq } from "next-sanity";
@@ -15,13 +15,17 @@ import ViewTracker from "./ViewTracker";
 import SocialShare from "@/components/SocialShare";
 import BlogCTA from "@/components/BlogCTA";
 
-// --- 1. RENDERER KHUSUS UNTUK CAPTION DI DALAM ARTIKEL ---
+// UPDATE: Import fungsi auto-link otomatis dari folder utils root
+import { applyAutoLinks } from "@/utils/applyAutoLinks";
+
+// --- 1. RENDERER KHUSUS UNTUK MEMBAJAK KONTEN SANITY & INTEGRASI AUTO-LINK ---
 const ptComponents: PortableTextComponents = {
   types: {
     image: ({ value }: any) => {
       return (
         <div className="my-12">
-          <div className="relative aspect-video w-full rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+          {/* MODIFIKASI: Pangkas radius gambar artikel menjadi rounded-md */}
+          <div className="relative aspect-video w-full rounded-md overflow-hidden shadow-lg border border-gray-100">
             <Image
               src={urlFor(value).url()}
               alt={value.alt || "Gambar Farhan Aqiqah"}
@@ -35,6 +39,24 @@ const ptComponents: PortableTextComponents = {
             </p>
           )}
         </div>
+      );
+    },
+  },
+  block: {
+    // MODIFIKASI: Membajak render paragraf bawaan Sanity agar kata kuncinya otomatis menjadi link aktif
+    normal: ({ children }: any) => {
+      const updatedChildren = children.map((child: any) => {
+        // Jika isi data block berupa teks string biasa, suntikkan sistem auto-link
+        if (typeof child === "string") {
+          return applyAutoLinks(child);
+        }
+        return child;
+      });
+
+      return (
+        <p className="text-gray-600 font-medium leading-relaxed mb-4">
+          {updatedChildren}
+        </p>
       );
     },
   },
@@ -112,7 +134,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
     <main className="w-full bg-white min-h-screen pb-24">
       <ViewTracker slug={params.slug} />
       
-      {/* 1. HERO HEADER (GRADASI MENUNJU TERANG) */}
+      {/* 1. HERO HEADER */}
       <section className="relative pt-40 pb-20 bg-primary overflow-hidden">
         <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/images/terang.png')] bg-repeat" style={{ backgroundSize: '400px' }}></div>
         <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/90 to-white/10 pointer-events-none"></div>
@@ -139,7 +161,8 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
               </div>
             </div>
             
-            <div className="flex items-center gap-3 text-white/70 bg-white/5 px-4 py-2.5 rounded-xl border border-white/10">
+            {/* MODIFIKASI: Pangkas radius info detail meta menjadi rounded-md */}
+            <div className="flex items-center gap-3 text-white/70 bg-white/5 px-4 py-2.5 rounded-md border border-white/10">
               <Calendar size={14} className="text-accent" />
               <span className="text-xs font-bold">
                 {new Date(post.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
@@ -149,12 +172,12 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
               </span>
             </div>
 
-            <div className="flex items-center gap-3 text-white/70 bg-white/5 px-4 py-2.5 rounded-xl border border-white/10">
+            <div className="flex items-center gap-3 text-white/70 bg-white/5 px-4 py-2.5 rounded-md border border-white/10">
               <BookOpen size={14} className="text-accent" />
               <span className="text-xs font-bold">{readingTime} Menit Baca</span>
             </div>
             
-            <div className="flex items-center gap-3 text-white/70 bg-white/5 px-4 py-2.5 rounded-xl border border-white/10">
+            <div className="flex items-center gap-3 text-white/70 bg-white/5 px-4 py-2.5 rounded-md border border-white/10">
               <Eye size={14} className="text-accent" />
               <span className="text-xs font-bold">{(post.views || 0).toLocaleString('id-ID')} Views</span>
             </div>
@@ -170,22 +193,24 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
             {/* THUMBNAIL UTAMA */}
             {youtubeId ? (
               <div className="mb-12">
-                <div className="relative aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-black">
+                {/* MODIFIKASI: Pangkas radius iframe Youtube menjadi rounded-md */}
+                <div className="relative aspect-video w-full rounded-md overflow-hidden shadow-2xl border border-gray-100 bg-black">
                   <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${youtubeId}`} frameBorder="0" allowFullScreen></iframe>
                 </div>
                 {post.mainImage?.caption && <p className="text-center text-sm italic text-gray-400 mt-4 font-medium">{post.mainImage.caption}</p>}
               </div>
             ) : post.mainImage ? (
               <div className="mb-12">
-                <div className="relative aspect-video w-full rounded-2xl overflow-hidden shadow-xl border border-gray-100">
+                {/* MODIFIKASI: Pangkas radius foto utama menjadi rounded-md */}
+                <div className="relative aspect-video w-full rounded-md overflow-hidden shadow-xl border border-gray-100">
                   <Image src={urlFor(post.mainImage).url()} alt={post.mainImage.alt || post.title} fill className="object-cover" priority />
                 </div>
                 {post.mainImage.caption && <p className="text-center text-sm italic text-gray-400 mt-4 font-medium">{post.mainImage.caption}</p>}
               </div>
             ) : null}
 
-            {/* ISI ARTIKEL (DENGAN RENDERER CAPTION) */}
-            <div className="prose prose-lg max-w-none text-gray-600 font-medium leading-relaxed prose-headings:text-primary prose-headings:font-black prose-strong:text-primary prose-img:rounded-2xl">
+            {/* ISI ARTIKEL (Menggunakan ptComponents yang memicu auto-internal link paragraf) */}
+            <div className="prose prose-lg max-w-none text-gray-600 font-medium leading-relaxed prose-headings:text-primary prose-headings:font-black prose-strong:text-primary prose-img:rounded-md">
               <PortableText value={post.body} components={ptComponents} />
             </div>
 
@@ -203,7 +228,8 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
                     const relImg = rel.imageUrl || (rel.youtubeUrl ? getYouTubeThumbnail(rel.youtubeUrl) : null);
                     return (
                       <Link key={i} href={`/blog/${rel.slug}`} className="group block">
-                        <div className="relative aspect-video rounded-xl overflow-hidden mb-3 bg-gray-100 border border-gray-100">
+                        {/* MODIFIKASI: Pangkas radius gambar artikel terkait menjadi rounded-md */}
+                        <div className="relative aspect-video rounded-md overflow-hidden mb-3 bg-gray-100 border border-gray-100">
                           {relImg && <Image src={relImg} alt={rel.title} fill className="object-cover group-hover:scale-105 transition-transform" />}
                         </div>
                         <h5 className="font-bold text-primary group-hover:text-accent transition-colors leading-tight line-clamp-2">{rel.title}</h5>
@@ -218,22 +244,24 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
           {/* SIDEBAR */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24 space-y-8">
             {/* Widget: Ikuti Kami */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100">
+            {/* MODIFIKASI: Pangkas radius widget Ikuti Kami menjadi rounded-md */}
+            <div className="p-6 rounded-md bg-gray-50 border border-gray-100">
               <h4 className="text-xs font-black text-primary mb-6 uppercase tracking-widest border-b pb-4">Ikuti Kami</h4>
               <div className="grid grid-cols-2 gap-3">
-                <Link href="#" className="flex flex-col items-center gap-2 py-6 rounded-2xl bg-white border border-gray-100 text-gray-400 hover:text-blue-600 transition-all group">
+                {/* MODIFIKASI: Pangkas radius kotak sosial media menjadi rounded-md */}
+                <Link href="#" className="flex flex-col items-center gap-2 py-6 rounded-md bg-white border border-gray-100 text-gray-400 hover:text-blue-600 transition-all group">
                   <Facebook size={22} className="group-hover:scale-110" />
                   <span className="text-[10px] font-black uppercase tracking-widest">Facebook</span>
                 </Link>
-                <Link href="#" className="flex flex-col items-center gap-2 py-6 rounded-2xl bg-white border border-gray-100 text-gray-400 hover:text-pink-600 transition-all group">
+                <Link href="#" className="flex flex-col items-center gap-2 py-6 rounded-md bg-white border border-gray-100 text-gray-400 hover:text-pink-600 transition-all group">
                   <Instagram size={22} className="group-hover:scale-110" />
                   <span className="text-[10px] font-black uppercase tracking-widest">Instagram</span>
                 </Link>
-                <Link href="#" className="flex flex-col items-center gap-2 py-6 rounded-2xl bg-white border border-gray-100 text-gray-400 hover:text-black transition-all group">
+                <Link href="#" className="flex flex-col items-center gap-2 py-6 rounded-md bg-white border border-gray-100 text-gray-400 hover:text-black transition-all group">
                   <TrendingUp size={22} className="group-hover:scale-110" />
                   <span className="text-[10px] font-black uppercase tracking-widest">TikTok</span>
                 </Link>
-                <Link href="https://wa.me/62895324383400" className="flex flex-col items-center gap-2 py-6 rounded-2xl bg-white border border-gray-100 text-gray-400 hover:text-green-600 transition-all group">
+                <Link href="https://wa.me/62895324383400" className="flex flex-col items-center gap-2 py-6 rounded-md bg-white border border-gray-100 text-gray-400 hover:text-green-600 transition-all group">
                   <MessageCircle size={22} className="group-hover:scale-110" />
                   <span className="text-[10px] font-black uppercase tracking-widest">WhatsApp</span>
                 </Link>
@@ -241,27 +269,27 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
             </div>
 
             {/* Widget: Terpopuler */}
-            {popularPosts?.length > 0 && (
-              <div className="p-8 rounded-3xl bg-white border border-gray-100 shadow-sm">
-                <h4 className="text-xs font-black text-primary mb-8 uppercase tracking-widest border-b pb-4">Terpopuler</h4>
-                <div className="space-y-10">
-                  {popularPosts.map((pop: any, i: number) => (
-                    <Link key={i} href={`/blog/${pop.slug}`} className="group flex items-start gap-5">
-                      <span className="text-5xl font-black text-gray-100 group-hover:text-accent/20 transition-colors leading-none pt-1">{i + 1}</span>
-                      <div className="flex-1">
-                        <div className="relative aspect-[4/3] w-20 rounded-xl overflow-hidden float-right ml-3 bg-gray-50 border border-gray-100 shadow-sm">
-                          {pop.imageUrl && <Image src={pop.imageUrl} alt={pop.title} fill className="object-cover group-hover:scale-110 transition-transform" />}
-                        </div>
-                        <h5 className="font-bold text-primary group-hover:text-accent transition-colors leading-snug text-sm line-clamp-3 mb-2">{pop.title}</h5>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">
-                          {new Date(pop.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
-                        </p>
+            {/* MODIFIKASI: Pangkas radius kontainer terpopuler menjadi rounded-md */}
+            <div className="p-8 rounded-md bg-white border border-gray-100 shadow-sm">
+              <h4 className="text-xs font-black text-primary mb-8 uppercase tracking-widest border-b pb-4">Terpopuler</h4>
+              <div className="space-y-10">
+                {popularPosts?.map((pop: any, i: number) => (
+                  <Link key={i} href={`/blog/${pop.slug}`} className="group flex items-start gap-5">
+                    <span className="text-5xl font-black text-gray-100 group-hover:text-accent/20 transition-colors leading-none pt-1">{i + 1}</span>
+                    <div className="flex-1">
+                      {/* MODIFIKASI: Pangkas radius thumbnail terpopuler menjadi rounded-md */}
+                      <div className="relative aspect-[4/3] w-20 rounded-md overflow-hidden float-right ml-3 bg-gray-50 border border-gray-100 shadow-sm">
+                        {pop.imageUrl && <Image src={pop.imageUrl} alt={pop.title} fill className="object-cover group-hover:scale-110 transition-transform" />}
                       </div>
-                    </Link>
-                  ))}
-                </div>
+                      <h5 className="font-bold text-primary group-hover:text-accent transition-colors leading-snug text-sm line-clamp-3 mb-2">{pop.title}</h5>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">
+                        {new Date(pop.publishedAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
               </div>
-            )}
+            </div>
           </aside>
         </div>
       </section>
