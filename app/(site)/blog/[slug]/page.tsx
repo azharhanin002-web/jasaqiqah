@@ -18,6 +18,11 @@ import BlogCTA from "@/components/BlogCTA";
 // UPDATE: Import fungsi auto-link otomatis dari folder utils root
 import { applyAutoLinks } from "@/utils/applyAutoLinks";
 
+// --- DEFINISI TIPE UNTUK NEXT.JS 15 ---
+interface PageProps {
+  params: Promise<{ slug: string }>;
+}
+
 // --- 1. RENDERER KHUSUS UNTUK MEMBAJAK KONTEN SANITY & INTEGRASI AUTO-LINK ---
 const ptComponents: PortableTextComponents = {
   types: {
@@ -105,26 +110,33 @@ async function getPostData(slug: string) {
   return await client.fetch(query, { slug }, { next: { revalidate: 60 } });
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const data = await getPostData(params.slug);
+// --- METADATA (NEXT.JS 15 PROMISE SINKRONISASI) ---
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const data = await getPostData(resolvedParams.slug);
+  
   if (!data?.post) return { title: "Artikel Tidak Ditemukan" };
   const ytThumb = data.post.youtubeUrl ? getYouTubeThumbnail(data.post.youtubeUrl) : null;
   const ogImage = data.post.mainImage ? urlFor(data.post.mainImage).url() : ytThumb;
+  
   return {
     title: `${data.post.title} - Farhan Aqiqah`,
     description: data.post.excerpt,
     openGraph: {
       title: data.post.title,
       description: data.post.excerpt,
-      url: `https://jasaqiqah.my.id/blog/${params.slug}`,
+      url: `https://jasaqiqah.my.id/blog/${resolvedParams.slug}`,
       images: ogImage ? [{ url: ogImage }] : [],
       type: "article",
     },
   };
 }
 
-export default async function BlogDetailPage({ params }: { params: { slug: string } }) {
-  const { post, popularPosts, relatedPosts } = await getPostData(params.slug);
+// --- HALAMAN UTAMA (NEXT.JS 15 ASYNC COMPONENT) ---
+export default async function BlogDetailPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const { post, popularPosts, relatedPosts } = await getPostData(resolvedParams.slug);
+  
   if (!post) notFound();
 
   const youtubeId = post.youtubeUrl ? getYouTubeId(post.youtubeUrl) : null;
@@ -132,7 +144,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
 
   return (
     <main className="w-full bg-white min-h-screen pb-24">
-      <ViewTracker slug={params.slug} />
+      <ViewTracker slug={resolvedParams.slug} />
       
       {/* 1. HERO HEADER */}
       <section className="relative pt-40 pb-20 bg-primary overflow-hidden">
@@ -209,7 +221,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
               </div>
             ) : null}
 
-            {/* ISI ARTIKEL (Menggunakan ptComponents yang memicu auto-internal link paragraf) */}
+            {/* ISI ARTIKEL */}
             <div className="prose prose-lg max-w-none text-gray-600 font-medium leading-relaxed prose-headings:text-primary prose-headings:font-black prose-strong:text-primary prose-img:rounded-md">
               <PortableText value={post.body} components={ptComponents} />
             </div>
@@ -217,7 +229,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
             {/* KOMPONEN CTA */}
             <BlogCTA />
 
-            <SocialShare title={post.title} slug={params.slug} />
+            <SocialShare title={post.title} slug={resolvedParams.slug} />
 
             {/* RELATED POSTS */}
             {relatedPosts?.length > 0 && (
@@ -244,11 +256,9 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
           {/* SIDEBAR */}
           <aside className="lg:col-span-4 lg:sticky lg:top-24 space-y-8">
             {/* Widget: Ikuti Kami */}
-            {/* MODIFIKASI: Pangkas radius widget Ikuti Kami menjadi rounded-md */}
             <div className="p-6 rounded-md bg-gray-50 border border-gray-100">
               <h4 className="text-xs font-black text-primary mb-6 uppercase tracking-widest border-b pb-4">Ikuti Kami</h4>
               <div className="grid grid-cols-2 gap-3">
-                {/* MODIFIKASI: Pangkas radius kotak sosial media menjadi rounded-md */}
                 <Link href="#" className="flex flex-col items-center gap-2 py-6 rounded-md bg-white border border-gray-100 text-gray-400 hover:text-blue-600 transition-all group">
                   <Facebook size={22} className="group-hover:scale-110" />
                   <span className="text-[10px] font-black uppercase tracking-widest">Facebook</span>
@@ -269,7 +279,6 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
             </div>
 
             {/* Widget: Terpopuler */}
-            {/* MODIFIKASI: Pangkas radius kontainer terpopuler menjadi rounded-md */}
             <div className="p-8 rounded-md bg-white border border-gray-100 shadow-sm">
               <h4 className="text-xs font-black text-primary mb-8 uppercase tracking-widest border-b pb-4">Terpopuler</h4>
               <div className="space-y-10">
@@ -277,7 +286,6 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
                   <Link key={i} href={`/blog/${pop.slug}`} className="group flex items-start gap-5">
                     <span className="text-5xl font-black text-gray-100 group-hover:text-accent/20 transition-colors leading-none pt-1">{i + 1}</span>
                     <div className="flex-1">
-                      {/* MODIFIKASI: Pangkas radius thumbnail terpopuler menjadi rounded-md */}
                       <div className="relative aspect-[4/3] w-20 rounded-md overflow-hidden float-right ml-3 bg-gray-50 border border-gray-100 shadow-sm">
                         {pop.imageUrl && <Image src={pop.imageUrl} alt={pop.title} fill className="object-cover group-hover:scale-110 transition-transform" />}
                       </div>
