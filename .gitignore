@@ -28,3 +28,5 @@ yarn-error.log*
 
 # Sanity Specific (Jika ada folder lokal)
 .sanity/
+
+package-lock.json
