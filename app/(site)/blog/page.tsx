@@ -4,7 +4,7 @@ import { Calendar, Star, ArrowRight, Clock, Play } from "lucide-react";
 import { client } from "@/sanity/lib/client"; 
 import { groq } from "next-sanity";
 
-// --- 1. DEFINISI INTERFACE ---
+// --- 1. DEFINISI INTERFACE & PROPS NEXT.JS 15 ---
 interface Post {
   title: string;
   slug: string;
@@ -18,6 +18,10 @@ interface Post {
 interface BlogData {
   posts: Post[];
   allCategories: string[];
+}
+
+interface BlogPageProps {
+  searchParams: Promise<{ cat?: string }>;
 }
 
 // --- 2. HELPER YOUTUBE ---
@@ -57,12 +61,12 @@ function formatDate(dateString: string) {
   });
 }
 
-export default async function BlogPage({ 
-  searchParams 
-}: { 
-  searchParams: { cat?: string } 
-}) {
-  const currentCat = searchParams.cat || "Semua";
+// --- 4. HALAMAN UTAMA BLOG (ASYNC DENGAN PROMISE PARAMS) ---
+export default async function BlogPage({ searchParams }: BlogPageProps) {
+  // SINKRONISASI NEXT.JS 15: Await searchParams sebelum membaca properti di dalamnya
+  const resolvedSearchParams = await searchParams;
+  const currentCat = resolvedSearchParams.cat || "Semua";
+  
   const { posts, allCategories } = await getBlogData(currentCat);
   
   const featuredPost = posts[0];
